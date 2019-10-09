@@ -1,0 +1,10 @@
+{
+    "nigeria" :{
+        "short_name" : "NGN",
+        "symbol": "₦"
+    },
+    "usa" : {
+        "short_name" : "USD",
+        "symbol": "$"
+    }
+}
