@@ -6,9 +6,9 @@ Lancer is a simple
 
 - Clone the repo.
 - cd Lancers-App.
-- copy .example.env to .env .
+- copy .env.example to .env .
 - Add the database details to the .env.
 - composer install
-- php artisan key:genrate
+- php artisan key:generate
 - php artisan migrate
 - php artisan serve
