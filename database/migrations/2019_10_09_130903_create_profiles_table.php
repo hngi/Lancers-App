@@ -33,8 +33,7 @@ class CreateProfilesTable extends Migration
             $table->string('timezone')->nullable();
             $table->json('contacts')->nullable();
             $table->integer('currency_id');
-            $table->timestamps('created_at');
-            $table->timestamps('updated_at');
+            $table->timestamps();
 
         });
     }

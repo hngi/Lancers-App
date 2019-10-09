@@ -15,12 +15,11 @@ class CreateEmailSettingsTable extends Migration
     {
         Schema::create('email_settings', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('id');
+            $table->integer('user_id');
             $table->mediumtext('auto_invoice_message')->nullable();
             $table->mediumtext('auto_approval_message')->nullable();
             $table->mediumtext('auto_agreement_message')->nullable();
-            $table->timestamps('created_at');
-            $table->timestamps('updated_at');
+            $table->timestamps();
         });
     }
 
