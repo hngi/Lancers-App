@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSubscriptionplanTable extends Migration
+class CreateSubscriptionPlansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class CreateSubscriptionplanTable extends Migration
      */
     public function up()
     {
-        Schema::create('SubscriptionPlan', function (Blueprint $table) {
-            $table->increments('id');
+        Schema::create('subscription_plans', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->string('name',255);
             $table->text('description')->nullable();
             $table->json('features')->nullable();
@@ -30,6 +30,6 @@ class CreateSubscriptionplanTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('SubscriptionPlan');
+        Schema::dropIfExists('subscription_plans');
     }
 }

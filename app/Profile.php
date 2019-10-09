@@ -9,4 +9,6 @@ class Profile extends Model
     //
     protected $table="profiles";
 
+    protected $guarded = ['id'];
+
 }

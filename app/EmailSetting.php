@@ -8,4 +8,6 @@ class EmailSetting extends Model
 {
     //
     protected $table='email_settings';
+
+    protected $guarded = ['id'];
 }
