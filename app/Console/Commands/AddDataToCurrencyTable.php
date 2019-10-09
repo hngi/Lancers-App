@@ -2,26 +2,25 @@
 
 namespace App\Console\Commands;
 
-use App\SubscriptionPlan;
+use App\Currency;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\File;
 
-
-class AddDataToSubscriptionsTable extends Command
+class AddDataToCurrencyTable extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'subscriptions:table';
+    protected $signature = 'currencies:table';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Fill in the neccessary data in the subscriptions table';
+    protected $description = 'Add currency data to the table';
 
     /**
      * Create a new command instance.
@@ -40,17 +39,16 @@ class AddDataToSubscriptionsTable extends Command
      */
     public function handle()
     {
-        $path = base_path() . "/resources/json/subscriptionplans.json";
+        $path = base_path() . "/resources/json/currencies.json";
         $file = File::get($path);
-        $plans =  json_decode($file, true );
+        $currencies =  json_decode($file, true );
 
 
-        echo "Making sure table is empty >>\n";
-        SubscriptionPlan::truncate();
-        
-        foreach ($plans as $plan) {
-            echo "adding ". $plan['name'] ." to table\n";
-            SubscriptionPlan::create($plan);
+        echo "emptying table >> \n";
+        Currency::truncate();
+
+        foreach ($currencies as $currency) {
+            Currency::create($currency);
         }
 
         echo "done ✓";

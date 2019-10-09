@@ -15,3 +15,7 @@ Lancer is a simple
 
 ##Add fill in subscription plans to table
 - `php artisan subscriptions:table`
+
+##Add countries, states and currencies to table
+- `php artisan countriesandstates:table`
+- `php artisan currencies:table`
