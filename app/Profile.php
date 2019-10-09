@@ -11,4 +11,8 @@ class Profile extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+    	'contacts' => 'array'
+    ];
+
 }

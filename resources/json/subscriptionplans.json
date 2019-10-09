@@ -2,7 +2,7 @@
   {
       "name": "starter",
       "description" : "",
-      "pricing" : 0,
+      "price" : 0,
       "features" : {
           "limited_projects":true, 
           "allowed_projects":3, 
@@ -15,7 +15,7 @@
   {
       "name": "pro",
       "description" : "second level subscription plan",
-      "pricing" : 24.99,
+      "price" : 24.99,
       "features" : {
           "limited_projects":false, 
           "allowed_projects":null, 
@@ -24,12 +24,11 @@
           "support":false, 
           "beta_access":false
       }
-  },
-  
+  }, 
   {
       "name": "pro_plus",
       "description" : "third level subscription plan",
-      "pricing" : 79.99,
+      "price" : 79.99,
       "features" : {
           "limited_projects":false, 
           "allowed_projects":null, 
@@ -38,5 +37,5 @@
           "support":true, 
           "beta_access":true
       }
-  },
+  }
 ]
