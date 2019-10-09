@@ -9,6 +9,6 @@ Lancer is a simple
 - copy .env.example to .env .
 - Add the database details to the .env.
 - composer install
-- php artisan key:genrate
+- php artisan key:generate
 - php artisan migrate
 - php artisan serve
