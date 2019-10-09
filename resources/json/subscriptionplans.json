@@ -1,8 +1,8 @@
 {
   "0":{
       "name": "starter",
-      "description" : "first level subscription plan",
-      "pricing" : 0,
+      "description" : "",
+      "price" : 0,
       "features" : {
           "limited_projects":true, 
           "allowed_projects":3, 
@@ -15,7 +15,7 @@
   "1":{
       "name": "pro",
       "description" : "second level subscription plan",
-      "pricing" : 24.99,
+      "price" : 24.99,
       "features" : {
           "limited_projects":false, 
           "allowed_projects":null, 
@@ -24,12 +24,17 @@
           "support":false, 
           "beta_access":false
       }
+<<<<<<< HEAD:JSON/subscriptionplans.json
   },
   
   "2":{
+=======
+  }, 
+  {
+>>>>>>> 7487216f9c114da5ba8ff61c76e118afcdc775e0:resources/json/subscriptionplans.json
       "name": "pro_plus",
       "description" : "third level subscription plan",
-      "pricing" : 79.99,
+      "price" : 79.99,
       "features" : {
           "limited_projects":false, 
           "allowed_projects":null, 
@@ -39,5 +44,9 @@
           "beta_access":true
       }
   }
+<<<<<<< HEAD:JSON/subscriptionplans.json
 }
 
+=======
+]
+>>>>>>> 7487216f9c114da5ba8ff61c76e118afcdc775e0:resources/json/subscriptionplans.json
