@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Estimate;
 use Illuminate\Http\Request;
 use App\Http\Resources\Estimate as EstimateResource;
+use App\Http\Resources\EstimateCollection;
 
 class EstimateController extends Controller
 {
@@ -15,7 +16,10 @@ class EstimateController extends Controller
      */
     public function index()
     {
-        //
+        return response()->json([
+            'message' => 'all estimates',
+            'data' => new EstimateCollection(Estimate::all())
+        ], 200);
     }
 
     /**
