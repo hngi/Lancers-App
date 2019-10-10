@@ -31,7 +31,8 @@ class CreateProfilesTable extends Migration
             $table->string('zipcode')->nullable();
             $table->integer('state_id')->nullable();
             $table->string('timezone')->nullable();
-            $table->json('contacts')->nullable();
+            $table->text('contacts')->nullable();
+            // $table->json('contacts')->nullable();
             $table->integer('currency_id');
             $table->timestamps();
 

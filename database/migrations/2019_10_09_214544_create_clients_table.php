@@ -26,7 +26,8 @@ class CreateClientsTable extends Migration
             $table->integer('state_id')->nullable();
             $table->string('zipcode')->nullable();
             $table->string('timezone')->nullable();
-            $table->json('contacts')->nullable();
+            $table->text('contacts')->nullable();
+            // $table->json('contacts')->nullable();
             $table->timestamps();
         });
     }
