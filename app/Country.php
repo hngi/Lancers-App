@@ -8,4 +8,12 @@ class Country extends Model
 {
     //
     protected $guarded = ['id'];
+
+    protected $table ="country";
+
+    protected $fillable = [
+        'id',
+        'name',
+        'created'
+    ];
 }

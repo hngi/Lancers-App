@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\CurrencyModel;
+use App\Currency;
 
 class CurrencyController extends Controller
 {
     public function currency(){
-        return response()->json(CurrencyModel::get(), 200);
+        return response()->json(Currency::get(), 200);
 
     }
 }
