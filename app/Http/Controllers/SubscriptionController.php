@@ -31,6 +31,7 @@ class SubscriptionController extends Controller
     function showSubscriptions()
     {
         $plans = SubscriptionPlan::all()->toArray();
+        dd($plans);
         return view('subscriptions')->with(['plans'=> $plans]);
 
     }
