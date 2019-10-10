@@ -19,7 +19,8 @@ class CreateEstimatesTable extends Migration
             $table->integer('time');
             $table->integer('price_per_hour');
             $table->integer('equipment_cost');
-            $table->json('sub_contractors')->nullable();
+            $table->text('sub_contractors')->nullable();
+            // $table->json('sub_contractors')->nullable();
             $table->integer('similar_projects');
             $table->integer('rating');
             $table->integer('currency_id');

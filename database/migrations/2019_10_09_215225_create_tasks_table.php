@@ -18,7 +18,8 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->mediumText('description')->nullable();
             $table->integer('progress');
-            $table->json('team')->nullable();
+            // $table->json('team')->nullable();
+            $table->text('team')->nullable();
             $table->date('start_date')->nullable();
             $table->date('due_date')->nullable();
             $table->integer('project_id');
