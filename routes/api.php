@@ -17,9 +17,16 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::get('country', 'CountryController@country');
+
+Route::get('state', 'StateController@state');
+
+Route::get('currency', 'CurrencyController@currency');
+
 Route::get('tasks','TaskController@getAllTasks');
 Route::get('tasks/{id}', 'TaskController@getTask');
 Route::post('tasks', 'TaskController@createTask');
 Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
+
 
