@@ -13,7 +13,7 @@ class CreateSubscriptionTable extends Migration
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('Subscription', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('user_id'); #should be a foreign key
             $table->integer('plan_id'); #should be a foreign key
