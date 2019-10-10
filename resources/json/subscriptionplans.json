@@ -1,7 +1,8 @@
-[
-  {
+{
+ 
+ "plan1" : {
       "name": "starter",
-      "description" : "",
+      "description" : "first level subscription plan",
       "price" : 0,
       "features" : {
           "limited_projects":true, 
@@ -12,7 +13,7 @@
           "beta_access":false
       }
   },
-  {
+ "plan2" : {
       "name": "pro",
       "description" : "second level subscription plan",
       "price" : 24.99,
@@ -25,7 +26,7 @@
           "beta_access":false
       }
   }, 
-  {
+  "plan3" : {
       "name": "pro_plus",
       "description" : "third level subscription plan",
       "price" : 79.99,
@@ -38,4 +39,4 @@
           "beta_access":true
       }
   }
-]
+}
