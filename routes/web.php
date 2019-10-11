@@ -12,5 +12,11 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
+});
+Route::get('/invoice_sent', function () {
+    return view('invoice_sent');
+});
+Route::get('/invoice_view', function () {
+    return view('invoice_view');
 });
