@@ -140,6 +140,6 @@ Trait VerifyandStoreTransactions{
 	public function storeTransaction($ref, $amount, $narr = "", $status)
 	{
 		// store the transactions in the database
-		Auth::user()->transaction()->create(['reference' => $ref, 'amount' => $amount, 'narration' => $narr, 'status' => $status]);
+		Auth::user()->transactions()->create(['reference' => $ref, 'amount' => $amount, 'narration' => $narr, 'status' => $status]);
 	}
 }
