@@ -18,6 +18,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::get('/pricing', function () {
+    return view('pricing');
+});
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
