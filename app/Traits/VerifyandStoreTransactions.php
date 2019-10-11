@@ -80,7 +80,7 @@ Trait VerifyandStoreTransactions{
 	        // dd($type);
 	        $tx_id = $meta[1]['metavalue'];
 	        $months = 0;
-	        $status = $resp['data']['status'] == 'success' ? 1 : 2;
+	        $status = $resp['data']['status'] == 'successful' ? 2 : 3;
 
 	        if($type == 'sub'){
 
@@ -143,12 +143,12 @@ Trait VerifyandStoreTransactions{
 		$user = Auth::user();
 		// store the transactions in the database
 		$user->transactions()->create(['reference' => $ref, 'amount' => $amount, 'narration' => $narr, 'status' => $status]);
-		
+
 		$subject = "Transaction ";
-		$subject .= $status == 1 ? "successful" : "failed";
+		$subject .= $status == 2 ? "successful" : "failed";
 
 		$body = "Your ".$narr." in the total sum of $".$amount." was ";
-		$body .= $status == 1 ? "successful" : "not successful";
+		$body .= $status == 2 ? "successful" : "not successful";
 
 		$user->notify(new UserNotification([
 			"subject" => $subject,

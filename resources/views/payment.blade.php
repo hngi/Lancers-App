@@ -73,10 +73,10 @@
                 function payWithRave(amount, months = 1) {
                     var x = getpaidSetup({
                         PBFPubKey: API_publicKey,
-                        customer_email: "user@example.com",
+                        customer_email: "{{auth()->user()->email}}",
                         amount: amount,
                         customer_phone: "234099940409",
-                        currency: "NGN",
+                        currency: "USD",
                         txref: "{{$data['ref']}}",
                         meta: [
                             {

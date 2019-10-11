@@ -35,11 +35,11 @@ Route::get('payment/{type}/{ref?}', 'PaymentContoller@create');
 
 Route::resource('transactions', 'TransactionsController');
 
-Route::get('country', 'CountryController@country');
+Route::get('countries', 'DataController@countries');
 
-Route::get('state', 'StateController@state');
+Route::get('states/{id}', 'DataController@states');
 
-Route::get('currency', 'CurrencyController@currency');
+Route::get('currencies', 'DataController@currencies');
 
 Route::get('tasks', 'TaskController@getAllTasks')->middleware('auth');
 Route::get('tasks/{id}', 'TaskController@getTask')->middleware('auth');
