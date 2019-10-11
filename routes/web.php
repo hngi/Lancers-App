@@ -42,11 +42,11 @@ Route::get('states/{id}', 'DataController@states');
 
 Route::get('currencies', 'DataController@currencies');
 
-Route::get('tasks', 'TaskController@getAllTasks')->middleware('auth');
-Route::get('tasks/{id}', 'TaskController@getTask')->middleware('auth');
-Route::post('tasks', 'TaskController@createTask')->middleware('auth');
-Route::put('tasks/{id}', 'TaskController@updateTask')->middleware('auth');
-Route::delete('tasks/{id}', 'TaskController@deleteTask')->middleware('auth');
+Route::get('tasks', 'TaskController@getAllTasks');
+Route::get('tasks/{id}', 'TaskController@getTask');
+Route::post('tasks', 'TaskController@createTask');
+Route::put('tasks/{id}', 'TaskController@updateTask');
+Route::delete('tasks/{id}', 'TaskController@deleteTask');
 
 Route::get('estimates', 'EstimateController@index')->middleware('auth');
 Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth');
@@ -72,3 +72,5 @@ Route::get('/set_estimate', function () {
 });
 
 
+Route::resource('projects', 'ProjectController');
+Route::get('projects/{project}/tasks', 'TaskController@projectTasks');
