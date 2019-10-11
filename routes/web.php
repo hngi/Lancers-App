@@ -12,11 +12,26 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
 
 Auth::routes();
 
 Route::get('/pricing', function () {
     return view('pricing');
 });
+
+Route::get('/invoice_sent', function () {
+    return view('invoice_sent');
+});
+Route::get('/invoice_view', function () {
+    return view('invoice_view');
+});
+Route::get('/create_estimate', function () {
+    return view('create_estimate');
+});
+Route::get('/set_estimate', function () {
+    return view('set_estimate');
+});
+
