@@ -44,9 +44,9 @@ class UserNotification extends Notification
     {
         return (new MailMessage)
                     ->subject($this->message['subject'])
-                    ->greeting("Hello ".explode($notifiable->name)[0])
+                    ->greeting("Hello ".explode(" ", $notifiable->name)[0])
                     ->line($this->message['body'])
-                    ->action($this->message['action']['text'], url($this->message['action']['link']))
+                    ->action($this->message['action']['text'], url($this->message['action']['url']))
                     ->line('Thank you for using Lancers!');
     }
 
@@ -58,8 +58,6 @@ class UserNotification extends Notification
      */
     public function toArray($notifiable)
     {
-        return [
-            //
-        ];
+        return $this->message;
     }
 }

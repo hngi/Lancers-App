@@ -52,3 +52,8 @@ Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth'
 Route::post('estimates', 'EstimateController@store')->middleware('auth');
 Route::put('estimates/{estimate}', 'EstimateController@update')->middleware('auth');
 Route::delete('estimates/{estimate}', 'EstimateController@destroy')->middleware('auth');
+
+Route::get('user/notifications', 'NotificationsController@notifications');
+Route::put('user/notifications/read/{$id}', 'NotificationsController@markAsRead');
+Route::put('user/notifications/read/all', 'NotificationsController@markAllAsRead');
+

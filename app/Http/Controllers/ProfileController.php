@@ -35,20 +35,16 @@ class ProfileController extends Controller
     {
       //check user provided input
       $checkNameInput = $this->validator(["name"=> $request->input('name')]);
-      if(!$checkNameInput->fails())
-      {
-            //get user details
-            
-            $userDetails = auth()->user();
-            $userDetails->name = $request->input('name');
-            $userDetails->save();
 
-            return redirect('dashboard')->with(['editStatus'=>'Profile name changed succesfully to ', 'newName'=> $userDetails->name]);
+      if(!$checkNameInput->fails()){
+        //get user details
+        
+        $userDetails = auth()->user();
+        $userDetails->name = $request->input('name');
+        $userDetails->save();
 
-            
-      }
-      else
-      {
+        return redirect('dashboard')->with(['editStatus'=>'Profile name changed succesfully to ', 'newName'=> $userDetails->name]);         
+      }else {
           $errorsArray = $checkNameInput->errors()->all();
           $errorString = '';
 
