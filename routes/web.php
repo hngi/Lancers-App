@@ -19,14 +19,13 @@ Auth::routes();
 
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
-Route::post('/users/edit/profile',"ProfileController@editProfile")->middleware('auth')->name('edit-profile');
+Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
 
 Route::get('/users/subscriptions',"SubscriptionController@showSubscriptions")->name('subscriptions');
 
 Route::get('/users/subscribe/{txref?}',"SubscriptionController@subscribeUser");
 
 Route::get('/users/view/subscriptions',"SubscriptionController@showPlan");
-
 
 
 Route::post('/pay', 'RaveController@initialize')->name('pay');
@@ -45,12 +44,18 @@ Route::get('state', 'StateController@state');
 
 Route::get('currency', 'CurrencyController@currency');
 
-Route::get('tasks','TaskController@getAllTasks')->middleware('auth');
+Route::get('tasks', 'TaskController@getAllTasks')->middleware('auth');
 Route::get('tasks/{id}', 'TaskController@getTask')->middleware('auth');
 Route::post('tasks', 'TaskController@createTask')->middleware('auth');
 Route::put('tasks/{id}', 'TaskController@updateTask')->middleware('auth');
-Route::delete('tasks/{id}','TaskController@deleteTask')->middleware('auth');
+Route::delete('tasks/{id}', 'TaskController@deleteTask')->middleware('auth');
 
+<<<<<<< HEAD
 
-
-
+=======
+Route::get('estimates', 'EstimateController@index')->middleware('auth');
+Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth');
+Route::post('estimates', 'EstimateController@store')->middleware('auth');
+Route::put('estimates/{estimate}', 'EstimateController@update')->middleware('auth');
+Route::delete('estimates/{estimate}', 'EstimateController@destroy')->middleware('auth');
+>>>>>>> a143dd28f71ce4418d19c4b868778d3c3bcbd56c
