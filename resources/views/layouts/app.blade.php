@@ -24,30 +24,30 @@
     {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet">  --}}
 
 
-   //inline styles
+   {{--  //inline styles  --}}
     @yield('styles')
     
 </head>
 <body>
-    //top navigation bar
+    {{--  //top navigation bar  --}}
     @yield('header')
     
-    //sidebar
+    {{--  //sidebar  --}}
     @auth
        @yield('sidebar') 
     @endauth
         
-    //the content
+    {{--  //the content  --}}
     
     @yield('content')
     
+    @yield('footer')
 
-
-    //scripts
+    {{--  //scripts  --}}
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-   // inline scrpt
+   {{--  // inline scrpt  --}}
    @yield('script')
        
 </body>
