@@ -18,9 +18,18 @@ class Client extends Model
         return $this->belongsTo('App\State');
     }
 
-    protected $fillable = ["user_id", "name", "email", "profile_picture", "street", "street_number", "city", "country_id", "state_id", "zipcode", "timezone", "contacts"];
-    //
+    // protected $fillable = ["user_id", "name", "email", "profile_picture", "street", "street_number", "city", "country_id", "state_id", "zipcode", "timezone", "contacts"];
 
     protected $guarded = ['id'];
+
+    public function user()
+    {
+        $this->belongsTo('App\User');
+    }
+
+    public function project()
+    {
+        return $this->hasMany('App\Project');
+    }
 
 }

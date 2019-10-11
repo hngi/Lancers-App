@@ -11,14 +11,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, Notifiable;
 
-    
-    public function projects(){
-        return $this->hasMany('App\Project');
-    }
-    
-    public function clients(){
-        return $this->hasMany('App\Client');
-    }
 
     /**
      * The attributes that are mass assignable.
@@ -44,4 +36,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+    
+    public function transactions(){
+        return $this->hasMany('App\Transaction');
+    }
+
+    public function subscription(){
+        return $this->hasOne('App\Subscription');
+    }
+
+    public function projects(){
+        return $this->hasMany('App\Project');
+    }
+    
+    public function clients(){
+        return $this->hasMany('App\Client');
+    }
+
 }

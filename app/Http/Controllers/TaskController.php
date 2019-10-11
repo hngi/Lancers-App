@@ -10,9 +10,9 @@ class TaskController extends Controller
     //Create, Get, Update and Delete Tasks
 
     public function getAllTasks() {
-            $tasks = Task::get()->toJson(JSON_PRETTY_PRINT);
-            return response($tasks, 200);
-          }
+        $tasks = Task::get()->toJson(JSON_PRETTY_PRINT);
+        return response($tasks, 200);
+    }
 
     public function createTask(Request $request) {
         $task = new Task;
