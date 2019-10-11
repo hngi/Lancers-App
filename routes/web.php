@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
 
 
@@ -21,6 +21,8 @@ Auth::routes();
 Route::get('/pricing', function () {
     return view('pricing');
 });
+
+
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
