@@ -12,8 +12,9 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
 
 Auth::routes();
 
@@ -56,4 +57,18 @@ Route::delete('estimates/{estimate}', 'EstimateController@destroy')->middleware(
 Route::get('user/notifications', 'NotificationsController@notifications');
 Route::put('user/notifications/read/{$id}', 'NotificationsController@markAsRead');
 Route::put('user/notifications/read/all', 'NotificationsController@markAllAsRead');
+
+Route::get('/invoice_sent', function () {
+    return view('invoice_sent');
+});
+Route::get('/invoice_view', function () {
+    return view('invoice_view');
+});
+Route::get('/create_estimate', function () {
+    return view('create_estimate');
+});
+Route::get('/set_estimate', function () {
+    return view('set_estimate');
+});
+
 
