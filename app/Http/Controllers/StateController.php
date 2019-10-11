@@ -4,12 +4,12 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\StateModel;
+use App\State;
 
 class StateController extends Controller
 {
     public function state(){
-        return response()->json(StateModel::get(), 200);
+        return response()->json(State::get(), 200);
 
     }
 }

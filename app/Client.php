@@ -19,4 +19,8 @@ class Client extends Model
     }
 
     protected $fillable = ["user_id", "name", "email", "profile_picture", "street", "street_number", "city", "country_id", "state_id", "zipcode", "timezone", "contacts"];
+    //
+
+    protected $guarded = ['id'];
+
 }
