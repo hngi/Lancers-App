@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->date('start_date');
             $table->integer('project_id')->unsigned();
             $table->foreign('project_id')->references('id')->on('projects');
-            $table->enum('status', array('completed','pending'));
+            $table->enum('status', array('completed','pending','in-progress'));
             $table->dateTime('created_at');
             $table->dateTime('updated_at');
         });
