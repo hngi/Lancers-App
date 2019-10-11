@@ -13,3 +13,10 @@ Lancer is a simple
 - php artisan config:cache
 - php artisan migrate
 - php artisan serve
+
+##Add fill in subscription plans to table
+- `php artisan subscriptions:table`
+
+##Add countries, states and currencies to table
+- `php artisan countriesandstates:table`
+- `php artisan currencies:table`
