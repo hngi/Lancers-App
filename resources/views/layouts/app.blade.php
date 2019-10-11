@@ -37,6 +37,10 @@
        @yield('sidebar') 
     @endauth
         
+    //the content
+    
+    @yield('content')
+    
 
 
     //scripts
