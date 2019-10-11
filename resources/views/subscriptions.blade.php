@@ -39,9 +39,9 @@
                      <div>
                           @foreach ($plans as $mainPlans)
                                    @foreach ($mainPlans as $key => $value)
-                                              @if($key == 'id')
+                                              @if($key == 'name')
                                                 @php 
-                                                $url = url("/users/subscriptions/$value");
+                                                $url = url("/payment/$value");
 
                                                 @endphp
                                                
@@ -52,7 +52,7 @@
                                                @endif
                                                     @if($key == 'features')
                                                         @php
-                                                        $FeaturesArray = json_decode($value,1);
+                                                        $FeaturesArray = $value;
                                                         @endphp
                                                             <h5>{{ ucfirst($key) }}</h5>
                                                             @foreach ($FeaturesArray as $Featureskey => $Featuresvalue)

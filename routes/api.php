@@ -38,5 +38,23 @@ Route::post('tasks', 'TaskController@createTask');
 Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
 
+Route::group(['middleware' => 'auth:api'], function(){    
+    // Invoice API Routes
+    Route::post('invoice/create', 'InvoiceController@store');
+    Route::put('invoice/update', 'InvoiceController@update');
+    Route::delete('invoice/delete', 'InvoiceController@delete');
+    Route::get('invoice/list', 'InvoiceController@list');
+    Route::get('invoice/{id}', 'InvoiceController@view');
 
-
+    // Client API Routes
+    Route::post('client/create', 'ClientController@store');
+    Route::put('client/update', 'ClientController@update');
+    Route::delete('client/delete', 'ClientController@delete');
+    Route::get('client/list', 'ClientController@list');
+    Route::get('client/{id}', 'ClientController@view');
+});
+Route::get('documents','DocumentsController@index');
+Route::get('documents/{id}','DocumentsController@show');
+Route::post('documents','DocumentsController@store');
+Route::put('documents/{document}','DocumentsController@update');
+Route::delete('documents/{document}','DocumentsController@destroy');

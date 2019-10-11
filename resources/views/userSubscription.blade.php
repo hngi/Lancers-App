@@ -51,7 +51,7 @@
                         </div>
                        
                         @php
-                        $FeaturesArray = json_decode($plans['features'],1);
+                        $FeaturesArray = $plans['features'];
                         @endphp
                            <h5>Features: </h5> 
                             @foreach ($FeaturesArray as $Featureskey => $Featuresvalue)

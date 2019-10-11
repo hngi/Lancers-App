@@ -7,14 +7,13 @@
  * @copyright 2019
  */
 namespace App;
-
 use Illuminate\Database\Eloquent\Model;
-
 class SubscriptionPlan extends Model
 {
-    //model for SubscriptionPlan table
-    protected $table='SubscriptionPlan';
-
+    protected $guarded = ['id'];
+    protected $casts = [
+        'features' => 'array'
+    ];
     function checkPlan($planId)
     {
         $plan = SubscriptionPlan::find($planId);

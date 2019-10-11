@@ -15,12 +15,15 @@ class CreateProjectsTable extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('user_id');
-            $table->integer('client_id');
+            $table->string('title');
+            $table->text('description')->nullable();
+            $table->integer('user_id')->nullable();
+            $table->integer('client_id')->nullable();
             $table->integer('estimate_id')->nullable();
             $table->string('tracking_code')->nullable();
             $table->integer('invoice_id')->nullable();
             $table->integer('progress')->default(0);
+            $table->text('collaborators');
             $table->enum('status', ['pending', 'in-progress', 'completed']);
             $table->integer('contract_id')->nullable();
             $table->timestamps();
