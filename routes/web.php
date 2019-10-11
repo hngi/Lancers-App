@@ -20,3 +20,10 @@ Route::get('/invoice_sent', function () {
 Route::get('/invoice_view', function () {
     return view('invoice_view');
 });
+Route::get('/create_estimate', function () {
+    return view('create_estimate');
+});
+Route::get('/set_estimate', function () {
+    return view('set_estimate');
+});
+

@@ -24,11 +24,13 @@
 <body>
     
     {{-- //sidebar --}}
+    
     {{-- @auth --}}
        @yield('sidebar') 
     {{-- @endauth --}}
+
 {{-- //top navigation bar --}}
-@yield('header')
+    @yield('header')
 
     @yield('content')
 
