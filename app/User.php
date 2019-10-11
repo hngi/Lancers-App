@@ -34,4 +34,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    //User model to Email setting relationship
+    public function emailsetting()
+    {
+        return $this->hasOne('App\EmailSetting');
+    }
 }

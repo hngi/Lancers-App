@@ -27,6 +27,11 @@ Route::get('/users/subscriptions/{planId}', "SubscriptionController@subscribeUse
 
 Route::get('/users/view/subscriptions', "SubscriptionController@showPlan")->middleware('auth');
 
+Route::get('/users/settings/emails', "emailsettingsController@index")->middleware('auth');
+
+Route::put('/users/settings/emails', "emailsettingsController@updateEmailSettings")->middleware('auth')->name('SET-EMAIL');
+
+
 
 
 Route::post('/pay', 'RaveController@initialize')->name('pay');

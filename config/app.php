@@ -175,7 +175,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         //Adding Flutterwave Rave Service Provider by @BlinShine
-        KingFlamez\Rave\RaveServiceProvider::class,
+       KingFlamez\Rave\RaveServiceProvider::class,
     ],
 
     /*

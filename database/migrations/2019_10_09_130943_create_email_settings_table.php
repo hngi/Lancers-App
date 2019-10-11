@@ -17,7 +17,7 @@ class CreateEmailSettingsTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->mediumtext('auto_invoice_message')->nullable();
-            $table->mediumtext('auto_approval_message')->nullable();
+            $table->mediumtext('auto_proposal_message')->nullable();
             $table->mediumtext('auto_agreement_message')->nullable();
             $table->timestamps();
         });

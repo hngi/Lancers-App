@@ -1,7 +1,7 @@
 <?php
 /**
  * @author Mofehintolu MUMUNI
- * 
+ *
  * @description Subscription controller that handles user subscriptions
  * @slack @Bits_and_Bytes
  * @copyright 2019
@@ -31,7 +31,7 @@ class SubscriptionController extends Controller
     function showSubscriptions()
     {
         $plans = SubscriptionPlan::all()->toArray();
-        dd($plans);
+
         return view('subscriptions')->with(['plans'=> $plans]);
 
     }
@@ -46,7 +46,7 @@ class SubscriptionController extends Controller
         if(!$checkPlanId->fails())
       {
             //get user details
-           
+
             $planDetails = $plan->checkPlan($planId);
             //dd($planDetails['status']);
             if($planDetails['status'])
@@ -62,27 +62,27 @@ class SubscriptionController extends Controller
                 if( $subscribeUserToPlan)
                 {
                     return redirect('/users/subscriptions')->with(['editStatus'=>'User subscribed to ', 'plan'=> str_replace("_"," " ,ucfirst($planDetails['data']['name']))]);
-            
+
                 }
                 else {
                     return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
 
                 }
 
-               
+
             }
             else {
                return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
 
             }
-          
+
       }
       else
       {
           $errorsArray = $checkPlanId->errors()->all();
           $errorString = '';
 
-          //pass in a ponter of the $errorString  
+          //pass in a ponter of the $errorString
           array_map(function($value)use(&$errorString)
           {
             $errorString .= $value;
@@ -105,14 +105,14 @@ class SubscriptionController extends Controller
             $planStartDate = $plan->toArray()['startdate'];
             $planEndDate = $plan->toArray()['enddate'];
             $userPlan = SubscriptionPlan::where('id',$plan->toArray()['plan_id'])->first();
-          
+
             return view('userSubscription')->with(['plans'=> $userPlan->toArray(),'dates' => [$planStartDate,$planEndDate]]);
         }
         else {
             //no plan to show
             return view('userSubscription')->with(['plans'=> null,'dates' =>null]);
-       
+
         }
     }
-    
+
 }
