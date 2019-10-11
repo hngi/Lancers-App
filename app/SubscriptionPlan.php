@@ -15,7 +15,7 @@ class SubscriptionPlan extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'features' => 'json'
+        'features' => 'array'
     ];
 
     function checkPlan($planId)
