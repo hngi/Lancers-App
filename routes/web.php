@@ -50,12 +50,8 @@ Route::post('tasks', 'TaskController@createTask')->middleware('auth');
 Route::put('tasks/{id}', 'TaskController@updateTask')->middleware('auth');
 Route::delete('tasks/{id}', 'TaskController@deleteTask')->middleware('auth');
 
-<<<<<<< HEAD
-
-=======
 Route::get('estimates', 'EstimateController@index')->middleware('auth');
 Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth');
 Route::post('estimates', 'EstimateController@store')->middleware('auth');
 Route::put('estimates/{estimate}', 'EstimateController@update')->middleware('auth');
 Route::delete('estimates/{estimate}', 'EstimateController@destroy')->middleware('auth');
->>>>>>> a143dd28f71ce4418d19c4b868778d3c3bcbd56c
