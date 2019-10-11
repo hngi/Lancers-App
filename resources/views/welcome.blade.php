@@ -221,8 +221,8 @@
     	<header>
 			<nav class="navbar navbar-expand-lg navbar-main">
 				<div class="container">
-					<a class="navbar-brand" href="#">
-						<img src="https://lancer-app.000webhostapp.com/images/svg/logo-white.svg" class="img img-responsive" height="30" width="auto">
+					<a class="navbar-brand" href="{{ url('/') }}">
+						<img src="{{ asset('images/svg/logo-white.svg') }}" class="img img-responsive" height="30" width="auto">
 					</a>
 					<button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar top-bar"></span>
@@ -233,16 +233,16 @@
 					<div class="collapse navbar-collapse" id="navbarTogglerDemo02">
 						<ul class="navbar-nav ml-auto mt-2 mt-lg-0">
 							<li class="nav-item active">
-								<a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+								<a class="nav-link" href="{{ url('/') }}">Home <span class="sr-only">(current)</span></a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="pricing.html">Pricing</a>
+								<a class="nav-link" href="{{ url('/pricing') }}">Pricing</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="sign-up.html">Sign in</a>
+								<a class="nav-link" href="{{ route('login') }}">Sign in</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="sign-up">Sign up</a>
+								<a class="nav-link" href="{{ route('register') }}">Sign up</a>
 							</li>                             
 						</ul>
 					</div>
@@ -310,19 +310,19 @@
 		  			<div class="row">
 		  				<div class="col-md-4">
 		  					<div class="text-center text-white">
-		  						<img src="https://lancer-app.000webhostapp.com/images/svg/project-plan.svg" class="img img-responsive" height="auto" width="100%">
+		  						<img src="{{ asset('images/svg/project-plan.svg') }}" class="img img-responsive" height="auto" width="100%">
 		  						<p class="text-white text-bold mt-4">Plan</p>
 		  					</div>
 		  				</div>
 		  				<div class="col-md-4">
 		  					<div class="text-center text-white">
-		  						<img src="https://lancer-app.000webhostapp.com/images/svg/project-collaborate.svg" class="img img-responsive" height="auto" width="100%">
+		  						<img src="{{ asset('images/svg/project-collaborate.svg') }}" class="img img-responsive" height="auto" width="100%">
 		  						<p class="text-white text-bold mt-4">Collaborate</p>
 		  					</div>
 		  				</div>
 		  				<div class="col-md-4">
 		  					<div class="text-center text-white">
-		  						<img src="https://lancer-app.000webhostapp.com/images/svg/project-communicate.svg" class="img img-responsive" height="auto" width="100%">
+		  						<img src="{{ asset('images/svg/project-communicate.svg') }}" class="img img-responsive" height="auto" width="100%">
 		  						<p class="text-white text-bold mt-4">Communicate</p>
 		  					</div>
 		  				</div>
@@ -330,7 +330,7 @@
 		  			<div class="row">
 		  				<div class="col-md-12">
 		  					<p class="text-center">
-			  					<a href="#" class="btn btn-secondary-outline btn-lg">Create Invoice</a>
+			  					<a class="btn btn-secondary-outline btn-lg" href="{{ url('/') }}" >Create Invoice</a>
 			  				</p>
 		  				</div>
 		  			</div>
