@@ -47,6 +47,7 @@ Route::get('tasks/{id}', 'TaskController@getTask');
 Route::post('tasks', 'TaskController@createTask');
 Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}', 'TaskController@deleteTask');
+Route::put('/tasks/{task}/team', 'TaskController@addTeam');
 
 Route::get('estimates', 'EstimateController@index')->middleware('auth');
 Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth');

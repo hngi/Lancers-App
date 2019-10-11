@@ -107,7 +107,7 @@ class TaskController extends Controller
         return $tasks;
     }
 
-    public function addCollaborators(Request $request, Task $task)
+    public function addTeam(Request $request, Task $task)
     {
         $this->validate($request, [
             'user_id' => 'required|numeric',
