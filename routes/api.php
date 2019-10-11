@@ -53,3 +53,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('client/list', 'ClientController@list');
     Route::get('client/{id}', 'ClientController@view');
 });
+Route::get('documents','DocumentsController@index');
+Route::get('documents/{id}','DocumentsController@show');
+Route::post('documents','DocumentsController@store');
+Route::put('documents/{document}','DocumentsController@update');
+Route::delete('documents/{document}','DocumentsController@destroy');

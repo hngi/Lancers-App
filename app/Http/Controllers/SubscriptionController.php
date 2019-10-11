@@ -10,22 +10,20 @@ namespace App\Http\Controllers;
 
 use App\SubscriptionPlan;
 
+use Auth;
+use Carbon\Carbon;
 use App\Subscription;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Traits\VerifyandStoreTransactions;
 
 class SubscriptionController extends Controller
 {
+    use VerifyandStoreTransactions;
 
-
-    protected function validator(array $data)
-    {
-        return Validator::make($data, [
-            'id' => ['required','numeric', 'max:255'],
-        ]);
+    public function __construct(){
+        $this->middleware('auth');
     }
-
-
 
 
     function showSubscriptions()
@@ -35,61 +33,48 @@ class SubscriptionController extends Controller
 
     }
 
-
-
-
-    function subscribeUser(Request $request,$planId,SubscriptionPlan $plan,Subscription $Subscriber)
+    function subscribeUser(Request $request, $txref = null, SubscriptionPlan $plan,Subscription $Subscriber)
     {
-        $checkPlanId = $this->validator(['id' => $planId]);
+        if($txref !== null){
+            $data = $this->verifyTransaction($txref);
+        }else{
+            $data = [
+                'success' => true,
+                'plan_id' => 1,
+                'months' => 12
+            ];
+        }
 
-        if(!$checkPlanId->fails())
-      {
-            //get user details
+        if(!$data['success']){
+            return $data['reason'];
+        }else{          
+            $planId = $data['plan_id'];
+            $months = $data['months'];
+
            
             $planDetails = $plan->checkPlan($planId);
             //dd($planDetails['status']);
-            if($planDetails['status'])
-            {
+            if($planDetails['status']){
                //subscribe user to plan selected
 
                 //check for user plan and delete and update
                 //or if there is no plan insert
+                if($months < 1){
+                    return redirect('/users/subscriptions')->with(['editErrors'=>'Subscription months must be at least 1']);
+                }
 
                 //main logic present in Subscription model
-                $subscribeUserToPlan = $Subscriber->subscribeToPlan($planDetails['data']['id'],auth()->user()->toArray()['id']);
+                $subscribeUserToPlan = $Subscriber->subscribeToPlan($planDetails['data']['id'], Auth::id(), $months);
 
-                if( $subscribeUserToPlan)
-                {
-                    return redirect('/users/subscriptions')->with(['editStatus'=>'User subscribed to ', 'plan'=> str_replace("_"," " ,ucfirst($planDetails['data']['name']))]);
-            
-                }
-                else {
+                if( $subscribeUserToPlan) {
+                    return redirect('/users/subscriptions')->with(['editStatus'=>'User subscribed to ', 'plan'=> str_replace("_"," " ,ucfirst($planDetails['data']['name']))]);       
+                } else {
                     return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
-
-                }
-
-               
-            }
-            else {
+                }      
+            } else {
                return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
-
             }
-          
-      }
-      else
-      {
-          $errorsArray = $checkPlanId->errors()->all();
-          $errorString = '';
-
-          //pass in a ponter of the $errorString  
-          array_map(function($value)use(&$errorString)
-          {
-            $errorString .= $value;
-          },$errorsArray);
-
-        return redirect('/users/subscriptions')->with('editErrors',$errorString);
-
-      }
+        }
 
     }
 

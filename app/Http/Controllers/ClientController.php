@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\User;
 use App\Client;
+use App\Project;
+use App\Estimate;
 use Illuminate\Http\Request;
 
 class ClientController extends Controller
@@ -49,6 +52,9 @@ class ClientController extends Controller
     }
 
     public function list(){
+        // $user = User::find(1);
+        // return $users->projects()->clients()->select('id,name,profile_picture')->with('project:name,status');
+        
         $client = Client::where('user_id', Auth::user()->id)->paginate(10);
         return $client !== null ? $this->SUCCESS('Client retrieved', $client) : $this->SUCCESS('No client found');
     }
