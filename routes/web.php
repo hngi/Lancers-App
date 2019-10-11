@@ -14,3 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('/contracts/{project_id}/{template_id}', 'ContractControler@store')->name('create.contract');
+Route::put('/contracts/{project_id}/{id}')->name('edit.contract');
+Route::delete('/contracts/{project_id}/{id}')->name('delete.contract');

@@ -95,5 +95,11 @@
                 </div>
             </div>
         </div>
+        <div>
+        <form action="{{route('create.contract', ['project_id'=> 1, 'template_id' => 2])}}" method="POST">
+        @csrf
+<button type="submit"> Create Contract</button>
+            </form>
+        </div>
     </body>
 </html>
