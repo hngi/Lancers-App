@@ -6,6 +6,7 @@ use Auth;
 use App\Invoice;
 use App\Transaction;
 use App\SubscriptionPlan;
+use App\Notifications\UserNotification;
 
 Trait VerifyandStoreTransactions{
 
@@ -79,7 +80,7 @@ Trait VerifyandStoreTransactions{
 	        // dd($type);
 	        $tx_id = $meta[1]['metavalue'];
 	        $months = 0;
-	        $status = $resp['data']['status'] == 'success' ? 1 : 2;
+	        $status = $resp['data']['status'] == 'successful' ? 2 : 3;
 
 	        if($type == 'sub'){
 
@@ -139,7 +140,23 @@ Trait VerifyandStoreTransactions{
 
 	public function storeTransaction($ref, $amount, $narr = "", $status)
 	{
+		$user = Auth::user();
 		// store the transactions in the database
-		Auth::user()->transaction()->create(['reference' => $ref, 'amount' => $amount, 'narration' => $narr, 'status' => $status]);
+		$user->transactions()->create(['reference' => $ref, 'amount' => $amount, 'narration' => $narr, 'status' => $status]);
+
+		$subject = "Transaction ";
+		$subject .= $status == 2 ? "successful" : "failed";
+
+		$body = "Your ".$narr." in the total sum of $".$amount." was ";
+		$body .= $status == 2 ? "successful" : "not successful";
+
+		$user->notify(new UserNotification([
+			"subject" => $subject,
+			"body" => $body,
+			"action" => [
+				"text" => "View transactions",
+				"url" => "/transactions"
+			]
+		]));
 	}
 }

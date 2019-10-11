@@ -12,11 +12,15 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
+
 
 Auth::routes();
 
+Route::get('/pricing', function () {
+    return view('pricing');
+});
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
@@ -33,16 +37,13 @@ Route::post('/rave/callback', 'RaveController@callback')->name('callback');
 
 Route::get('payment/{type}/{ref?}', 'PaymentContoller@create');
 
-Route::get('/transactions', 'TransactionsController@index')->middleware('auth');
-Route::post('/transactions/add', 'TransactionsController@store')->middleware('auth');
-Route::get('/transactions/{id}', 'TransactionsController@show')->middleware('auth');
-Route::post('/transactions/delete/{id}', 'TransactionsController@destroy')->middleware('auth');
+Route::resource('transactions', 'TransactionsController');
 
-Route::get('country', 'CountryController@country');
+Route::get('countries', 'DataController@countries');
 
-Route::get('state', 'StateController@state');
+Route::get('states/{id}', 'DataController@states');
 
-Route::get('currency', 'CurrencyController@currency');
+Route::get('currencies', 'DataController@currencies');
 
 Route::get('tasks', 'TaskController@getAllTasks')->middleware('auth');
 Route::get('tasks/{id}', 'TaskController@getTask')->middleware('auth');
@@ -50,12 +51,27 @@ Route::post('tasks', 'TaskController@createTask')->middleware('auth');
 Route::put('tasks/{id}', 'TaskController@updateTask')->middleware('auth');
 Route::delete('tasks/{id}', 'TaskController@deleteTask')->middleware('auth');
 
-<<<<<<< HEAD
-
-=======
 Route::get('estimates', 'EstimateController@index')->middleware('auth');
 Route::get('estimates/{estimate}', 'EstimateController@show')->middleware('auth');
 Route::post('estimates', 'EstimateController@store')->middleware('auth');
 Route::put('estimates/{estimate}', 'EstimateController@update')->middleware('auth');
 Route::delete('estimates/{estimate}', 'EstimateController@destroy')->middleware('auth');
->>>>>>> a143dd28f71ce4418d19c4b868778d3c3bcbd56c
+
+Route::get('user/notifications', 'NotificationsController@notifications');
+Route::put('user/notifications/read/{$id}', 'NotificationsController@markAsRead');
+Route::put('user/notifications/read/all', 'NotificationsController@markAllAsRead');
+
+Route::get('/invoice_sent', function () {
+    return view('invoice_sent');
+});
+Route::get('/invoice_view', function () {
+    return view('invoice_view');
+});
+Route::get('/create_estimate', function () {
+    return view('create_estimate');
+});
+Route::get('/set_estimate', function () {
+    return view('set_estimate');
+});
+
+

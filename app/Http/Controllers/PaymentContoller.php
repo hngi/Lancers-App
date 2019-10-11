@@ -62,14 +62,16 @@ class PaymentContoller extends Controller
                     return "Sorry, you cannot downgrade your subscription";
                 }
 
-                $remaining = Carbon::parse($sub->enddate)->diffInDays(Carbon::parse($sub->startdate));
-                $plan = SubscriptionPlan::find($sub->plan_id);
+                if($data['id'] > $sub->plan_id){                    
+                    $remaining = Carbon::parse($sub->enddate)->diffInDays(Carbon::parse($sub->startdate));
+                    $plan = SubscriptionPlan::find($sub->plan_id);
 
-                $price_per_day = $plan->price/30;
+                    $price_per_day = $plan->price/30;
 
-                $balance = $price_per_day * $remaining;
+                    $balance = $price_per_day * $remaining;
 
-                $data['balance'] = $balance;
+                    $data['balance'] = $balance;
+                }
             }
 
             return view('payment')->with('data', $data);
