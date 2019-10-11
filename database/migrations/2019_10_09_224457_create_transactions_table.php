@@ -17,6 +17,7 @@ class CreateTransactionsNewTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->string('reference');
+            $table->text('narration');
             $table->float('amount', 15, 2);
             $table->enum('status', ['pending', 'succesful', 'failed']);
             $table->timestamps();
