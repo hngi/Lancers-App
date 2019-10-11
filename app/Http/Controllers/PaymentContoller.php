@@ -74,6 +74,9 @@ class PaymentContoller extends Controller
                 }
             }
 
+            if($data['id'] == 1){
+                return redirect($data['redirect']);
+            }
             return view('payment')->with('data', $data);
         }else if($type == "invoice"){
             // if the requested payment is an invoice
