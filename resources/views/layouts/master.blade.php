@@ -26,7 +26,7 @@
     {{-- //sidebar --}}
     
     {{-- @auth --}}
-    @include('layouts.sidebar')
+    @yield('sidebar')
     {{-- @endauth --}}
 
 {{-- //top navigation bar --}}
