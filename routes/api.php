@@ -32,11 +32,6 @@ Route::group(['prefix' => 'data'], function() {
     Route::get('currencies', 'DataController@currencies');
 });
 
-Route::get('tasks','TaskController@getAllTasks');
-Route::get('tasks/{id}', 'TaskController@getTask');
-Route::post('tasks', 'TaskController@createTask');
-Route::put('tasks/{id}', 'TaskController@updateTask');
-Route::delete('tasks/{id}','TaskController@deleteTask');
 
 Route::group(['middleware' => 'auth:api'], function(){  
     // Transaction controller
@@ -69,8 +64,20 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::post('estimates','EstimateController@store');
     Route::put('estimates/{estimate}','EstimateController@update');
     Route::delete('estimates/{estimate}','EstimateController@destroy');
-     
+
+    
+    
 });
+
+// Task API routes
+Route::get('tasks/{project}','TaskController@index');
+Route::get('tasks/detail/{task}','TaskController@show');
+Route::post('tasks','TaskController@store');
+Route::put('tasks/{task}','TaskController@update');
+Route::delete('tasks/{task}','TaskController@destroy');
+Route::post('tasks/{task}/team', 'TaskController@addTeam');
+Route::get('tasks/{task}/team', 'TaskController@team');
+
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
 Route::post('documents','DocumentsController@store');
