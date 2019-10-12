@@ -6,6 +6,7 @@ use App\Estimate;
 use Illuminate\Http\Request;
 use App\Http\Resources\Estimate as EstimateResource;
 use App\Http\Resources\EstimateCollection;
+use Illuminate\Support\Facades\Auth;
 
 class EstimateController extends Controller
 {
@@ -14,22 +15,13 @@ class EstimateController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function show(Project $project)
     {
-        return response()->json([
-            'message' => 'all estimates',
-            'data' => new EstimateCollection(Estimate::all())
-        ], 200);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $estimate = Estimate::where('project_id', $project->id)->first();
+        if($estimate){
+            return $this->SUCCESS($estimate);
+        }
+        return $this->ERROR('Estimate not Found');
     }
 
     /**
@@ -54,51 +46,15 @@ class EstimateController extends Controller
             'end' => 'required|date'
         ]);
 
-        $estimate = Estimate::create([
-            'project_id' => $request->project_id,
-            'time' => $request->time,
-            'price_per_hour' => $request->price_per_hour,
-            'equipment_cost' => $request->equipment_cost,
-            'sub_contractors' => $request->sub_contractors,
-            'sub_contractors_cost' => $request->sub_contractors_cost,
-            'similar_projects' => $request->similar_projects,
-            'rating' => $request->rating,
-            'currency_id' => $request->currency_id,
-            'start' => $request->start,
-            'end' => $request->end
-        ]);
+        $estimateCost = $request->input('price_per_hour') * $request->input('time');
+
+        $estimate = Estimate::create($request->all() + ['estimate' => $estimateCost]);
 
         if ($estimate) {
-            return response()->json([
-                'message' => 'estimate stored',
-                'data' => new EstimateResource($estimate)
-            ], 200);
+            return $this->SUCCESS($estimate);
         }
-    }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Estimate $estimate)
-    {
-        return response()->json([
-            'message' => 'estimate found',
-            'data' => new EstimateResource($estimate)
-        ], 200);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return $this->ERROR('Estimate creation failed');
     }
 
     /**
@@ -124,27 +80,15 @@ class EstimateController extends Controller
             'end' => 'required|date'
         ]);
 
-
-        $estimate->update([
-            'project_id' => $request->project_id,
-            'time' => $request->time,
-            'price_per_hour' => $request->price_per_hour,
-            'equipment_cost' => $request->equipment_cost,
-            'sub_contractors' => $request->sub_contractors,
-            'sub_contractors_cost' => $request->sub_contractors_cost,
-            'similar_projects' => $request->similar_projects,
-            'rating' => $request->rating,
-            'currency_id' => $request->currency_id,
-            'start' => $request->start,
-            'end' => $request->end
-        ]);
+        $estimate = Estimate::where('project_id', $request->input('project_id'))->first();
 
         if ($estimate) {
-            return response()->json([
-                'message' => 'estimate updated',
-                'data' => new EstimateResource($estimate)
-            ], 200);
+            $estimateCost = $request->input('price_per_hour') * $request->input('time');
+            $estimate->update($request->all() + ['estimate' => $estimateCost]);
+            return $this->SUCCESS($estimate);
         }
+
+        return $this->ERROR('Estimate not found');
     }
 
     /**
@@ -155,10 +99,10 @@ class EstimateController extends Controller
      */
     public function destroy(Estimate $estimate)
     {
-        $estimate->delete();
-
-        return response()->json([
-            'message' => 'estimate deleted',
-        ], 200);
+        if($estimate = Estimate::find($estimate->id)){
+            $estimate->delete();
+            return $this->SUCCESS('Estimate Deleted');
+        }
+        return $this->ERROR('Estimate deletion failed');
     }
 }

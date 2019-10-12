@@ -63,6 +63,12 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Project API Routes
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
+
+    // Estimate API routes
+    Route::get('estimates/{project}','EstimateController@show');
+    Route::post('estimates','EstimateController@store');
+    Route::put('estimates/{estimate}','EstimateController@update');
+    Route::delete('estimates/{estimate}','EstimateController@destroy');
      
 });
 Route::get('documents','DocumentsController@index');
