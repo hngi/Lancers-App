@@ -59,7 +59,7 @@ class InvoiceController extends Controller
             foreach($projects as $project){
                 if($project->invoice !== null)
                 {
-                    $project['client_name']= Client::where('id',1)->get()[0]['name'];
+                    $project['client_name']= Client::find($project['client_id'])['name'];
 
                  array_push($result, $project);
 
