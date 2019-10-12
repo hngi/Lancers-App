@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Rules\IsUser;
 
 class ProjectController extends Controller
 {
@@ -157,5 +158,23 @@ class ProjectController extends Controller
 
         // return $people;
         return response()->json($people);
+    }
+
+    public function addCollaborator(Project $project, Request $request) {
+        $team = $project->collaborators ?? [];
+        $request->validate([
+            'user_id' => ['required', 'integer', new IsUser],
+            'designation' => 'required|string',
+        ]);
+
+        array_push($team, [
+            'user_id' => $request->input('user_id'),
+            'designation' => $request->input('designation')
+        ]);
+
+        $project->collaborators = $team;
+        $project->save();
+
+        return response()->json($project, 201);
     }
 }

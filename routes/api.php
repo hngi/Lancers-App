@@ -52,6 +52,10 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('client/delete', 'ClientController@delete');
     Route::get('client/list', 'ClientController@list');
     Route::get('client/{id}', 'ClientController@view');
+
+    // Project API Routes
+    Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
+     
 });
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
