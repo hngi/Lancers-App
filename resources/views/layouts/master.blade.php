@@ -18,7 +18,7 @@
     <!-- Styles -->
     {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet">  --}}
    {{-- //inline styles --}}
-    @yield('styles')
+    @include('layouts.style')
     
 </head>
 <body>
@@ -26,11 +26,11 @@
     {{-- //sidebar --}}
     
     {{-- @auth --}}
-       @yield('sidebar') 
+    @include('layouts.sidebar')
     {{-- @endauth --}}
 
 {{-- //top navigation bar --}}
-    @yield('header')
+    @include('layouts.nav')
 
     @yield('content')
 

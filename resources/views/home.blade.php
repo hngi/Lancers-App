@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('layouts.master')
 
 @section('content')
 <div class="container">
@@ -11,6 +11,8 @@
                     <div class="card-header"><a href='/dashboard/profile/view' >View Profile</a></div>
                     <div class="card-header"><a href='/dashboard/profile' >Edit Profile</a></div>
                     <div class="card-header"><a href='/users/settings/emails' >Email Settings</a></div>
+                    <div class="card-header"><a href='/dashboard/invoice_list' >My Invoices</a></div>
+
                 <div class="card-body">
                     @if (session('status'))
                         <div class="alert alert-success" role="alert">
