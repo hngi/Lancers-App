@@ -8,6 +8,7 @@
  */
 namespace App\Http\Controllers;
 
+use Auth;
 use App\User;
 use App\State;
 use App\Profile;
@@ -26,6 +27,7 @@ class ProfileController extends Controller
      */
     function index()
     {
+        $user = Auth::user();
         //get country id
         //get state id
         //get currency id
@@ -34,7 +36,7 @@ class ProfileController extends Controller
         $stateValue = State::all()->toArray();
 
         //Get user profile details
-        $userProfile = Profile::where('user_id',auth()->user()->id)->first();
+        $userProfile =  $user->profile;
 
         //check if collection is null similar to mysqli num ros
         if($userProfile != null)

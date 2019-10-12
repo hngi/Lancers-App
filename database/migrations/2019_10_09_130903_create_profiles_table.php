@@ -20,10 +20,10 @@ class CreateProfilesTable extends Migration
             $table->string('last_name');
             $table->string('title')->nullable();
             $table->string('profile_picture')->nullable();
-            $table->string('company_name');
+            $table->string('company_name')->nullable();
             $table->string('company_email')->nullable();
             $table->text('company_address')->nullable();
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->text('street')->nullable();
             $table->string('street_number')->nullable();
             $table->string('country_id')->nullable();
@@ -32,7 +32,7 @@ class CreateProfilesTable extends Migration
             $table->integer('state_id')->nullable();
             $table->string('timezone')->nullable();
             $table->json('contacts')->nullable();
-            $table->integer('currency_id');
+            $table->integer('currency_id')->default(1);
             $table->timestamps();
 
         });

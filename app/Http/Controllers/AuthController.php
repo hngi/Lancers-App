@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Validator;
 
 use App\User;
 use App\Profile;
+use App\Subscription;
 
 class AuthController extends Controller
 {
@@ -38,20 +39,32 @@ class AuthController extends Controller
         ]);
         
         if($validation->fails()) return $this->ERROR($validation->errors());
+
         DB::beginTransaction();
         try{
             $user = new User();
+            $user->name = $request->name;
             $user->email = $request->email;
             $user->name = $request->name;
             $user->password = bcrypt($request->password);
             $user->save();
             
-		    // $name = explode(" ",$request->name);
+
             // $profile = new Profile();
             // $profile->user_id =  $user->id;
             // $profile->first_name = $name[0];
             // $profile->last_name = $name[1];
             // $profile->save();
+
+            // Subscription::subscribeToPlan(1 , $user->id, 12);
+
+		    $name = explode(" ",$request->name);
+            $profile = new Profile();
+            $profile->user_id =  $user->id;
+            $profile->first_name = $name[0];
+            $profile->last_name = $name[1];
+            $profile->save();
+
             
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult;
@@ -62,7 +75,9 @@ class AuthController extends Controller
             return $this->ERROR($e);
         }
 		// send email
+
         return $this->SUCCESS('Successfully created user', ['token'=>$token]);
+
     // }
         
     }

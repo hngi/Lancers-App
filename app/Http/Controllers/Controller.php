@@ -26,9 +26,20 @@ class Controller extends BaseController
         return response()->json(['status'=>'success', 'message'=> $message, 'data'=>$data], $code);
     }
 
+    // protected static function success($data=[] , $code = 200, $message = 'Operation was successful'){
+    //     return response()->json(['status'=>'success', 'message'=> $message, 'data'=>$data], $code);
+    // }
+
+
     protected static function ERROR($message = 'An error occured', $data=[], $code = 400){
         // $data = $data instanceof Object ? $data->getMessage() : $data->getMessage();
         $data = is_array($data) ? $data : $data->getMessage();
         return response()->json(['status'=>'failed', 'message'=> $message, 'data'=>$data], $code);
     }
+
+    // protected static function error($data=[], $code = 400, $message = 'An error occured'){
+    //     // $data = $data instanceof Object ? $data->getMessage() : $data->getMessage();
+    //     $data = is_array($data) ? $data : $data->getMessage();
+    //     return response()->json(['status'=>'failed', 'message'=> $message, 'data'=>$data], $code);
+    // }
 }
