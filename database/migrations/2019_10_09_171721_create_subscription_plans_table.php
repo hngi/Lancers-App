@@ -18,7 +18,7 @@ class CreateSubscriptionPlansTable extends Migration
             $table->string('name',255);
             $table->text('description')->nullable();
             $table->json('features')->nullable();
-            $table->float('price');
+            $table->float('text');
             $table->timestamps();
         });
     }
