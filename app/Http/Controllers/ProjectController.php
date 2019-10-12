@@ -13,6 +13,8 @@ class ProjectController extends Controller
     {
         $this->middleware('auth');          
     }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -72,7 +74,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        //
+        return response()->json($project, 201);
     }
 
     /**
