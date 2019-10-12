@@ -41,37 +41,26 @@ class AuthController extends Controller
         if($validation->fails()) return $this->ERROR("error", $validation->errors());
 
         DB::beginTransaction();
+
         try{
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->name = $request->name;
-            $user->password = bcrypt($request->password);
-            $user->save();
-            
 
-            // $profile = new Profile();
-            // $profile->user_id =  $user->id;
-            // $profile->first_name = $name[0];
-            // $profile->last_name = $name[1];
-            // $profile->save();
+            $user = User::create(['name' => $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
 
-            // Subscription::subscribeToPlan(1 , $user->id, 12);
+            $name = explode(" ",$request->name);
+            $user->profile()->create(['first_name' => $name[0], 'last_name' => $name[1]]);
 
-		    $name = explode(" ",$request->name);
-            $profile = new Profile();
-            $profile->user_id =  $user->id;
-            $profile->first_name = $name[0];
-            $profile->last_name = $name[1];
-            $profile->save();
+            $subscriber = new Subscription;
+            $subscriber->subscribeToPlan(1 , $user->id, 12);
 
             
-            $tokenResult = $user->createToken('Personal Access Token');
+            $tokenResult = $user->createToken('Personal Access Token')->accessToken;
+            return $tokenResult;
+            
             $token = $tokenResult;
 
             DB::commit();
         }catch (\Throwable $e) {
-            // DB::rollback();
+            DB::rollback();
             return $this->ERROR($e);
         }
 		// send email
