@@ -33,7 +33,7 @@ class Controller extends BaseController
 
     protected static function ERROR($message = 'An error occured', $data=[], $code = 400){
         // $data = $data instanceof Object ? $data->getMessage() : $data->getMessage();
-        $data = is_array($data) ? $data : $data->getMessage();
+        // $data = is_array($data) ? $data : $data->getMessage();
         return response()->json(['status'=>'failed', 'message'=> $message, 'data'=>$data], $code);
     }
 
