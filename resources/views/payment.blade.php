@@ -76,7 +76,7 @@
                         customer_email: "{{auth()->user()->email}}",
                         amount: amount,
                         customer_phone: "234099940409",
-                        currency: "USD",
+                        currency: "NGN",
                         txref: "{{$data['ref']}}",
                         meta: [
                             {

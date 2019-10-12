@@ -61,8 +61,7 @@ class ProjectController extends Controller
 
         $project = $user->projects()->create($data);
 
-        // return $project;
-        return response()->json($project, 201);
+        return $this->SUCCESS($Project, $code = 201);
     }
 
     /**
@@ -121,8 +120,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        // return $project;
-        return response()->json($project, 200);
+        return $this->SUCCESS($project);
     }
 
     /**
@@ -139,8 +137,7 @@ class ProjectController extends Controller
             $project->delete();
         }
 
-        // return $project;
-        return response()->json(null, 204);
+        return $this->SUCCESS(null, $code = 204);
     }
 
     public function collaborators(Project $project)
@@ -156,8 +153,7 @@ class ProjectController extends Controller
             $person[$key]["designation"] = $team[$key]["designation"];
         }
 
-        // return $people;
-        return response()->json($people);
+        return $this->SUCCESS($people);
     }
 
     public function addCollaborator(Project $project, Request $request) {
@@ -167,14 +163,24 @@ class ProjectController extends Controller
             'designation' => 'required|string',
         ]);
 
+        $user = Auth::user();
+        $max_collaborators = $user->subscription->features['collaborators'];
+
+        if(count($team) == $max_collaborators){
+            return $this->ERROR("You can only add $max_collaborators collaborators", $code = 412);
+        }
+
         array_push($team, [
             'user_id' => $request->input('user_id'),
             'designation' => $request->input('designation')
         ]);
 
-        $project->collaborators = $team;
-        $project->save();
 
-        return response()->json($project, 201);
+        $project = $project->update(['collaborators' => $team]);
+        // this wont work due to json to array cast
+        // $project->collaborators = $team;
+        // $project->save();
+
+        return $this->SUCCESS($project);
     }
 }
