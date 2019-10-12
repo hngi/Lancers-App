@@ -37,6 +37,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
     
+      //User model to Email setting relationship
+    public function emailsetting()
+    {
+        return $this->hasOne('App\EmailSetting');
+    }
+
+    public function profile()
+    {
+        return $this->hasOne('App\Profile');
+    }
+    
     public function transactions(){
         return $this->hasMany('App\Transaction');
     }
@@ -52,5 +63,7 @@ class User extends Authenticatable
     public function clients(){
         return $this->hasMany('App\Client');
     }
+    
+    
 
 }
