@@ -23,7 +23,9 @@ class ProjectController extends Controller
 
         $projects = $user->projects()->select('id','title', 'status', 'created_at')->with(['estimate:project_id,start,end', 'invoice:project_id,amount,amount_paid'])->get();
 
-        return $projects;
+        // return $projects;
+        return response()->json($projects, 200);
+        
     }
 
     public function create()
@@ -58,7 +60,8 @@ class ProjectController extends Controller
 
         $project = $user->projects()->create($data);
 
-        return $project;
+        // return $project;
+        return response()->json($project, 201);
     }
 
     /**
@@ -117,7 +120,8 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return $project;
+        // return $project;
+        return response()->json($project, 200);
     }
 
     /**
@@ -134,7 +138,8 @@ class ProjectController extends Controller
             $project->delete();
         }
 
-        return $project;
+        // return $project;
+        return response()->json(null, 204);
     }
 
     public function collaborators(Project $project)
@@ -150,6 +155,7 @@ class ProjectController extends Controller
             $person[$key]["designation"] = $team[$key]["designation"];
         }
 
-        return $people;
+        // return $people;
+        return response()->json($people);
     }
 }
