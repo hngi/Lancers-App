@@ -34,7 +34,7 @@ class AuthController extends Controller
                         'email' => 'required|string|email|unique:users',
                         'password' => 'required|string|confirmed'
                     ]);
-		$name = explode(" ",$request->name)
+		$name = explode(" ",$request->name);
         DB::beginTransaction();
         try{
             $user = new User();
@@ -57,7 +57,7 @@ class AuthController extends Controller
             return $this->db_error($e);
         }
 		// send email
-        return $this->SUCCESS('Successfully created user', 'token'=>$token);
+        return $this->SUCCESS('Successfully created user', ['token'=>$token]);
     // }
         
     }
