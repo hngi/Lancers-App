@@ -39,7 +39,8 @@ Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
 
 Route::group(['middleware' => 'auth:api'], function(){  
-    // Transaction controller
+
+        // Transaction controller
     Route::get('/transactions', 'TransactionsController@index');
     
 	// Auth Routes
@@ -71,3 +72,5 @@ Route::post('documents','DocumentsController@store');
 Route::put('documents/{document}','DocumentsController@update');
 Route::delete('documents/{document}','DocumentsController@destroy');
 Route::resource('projects', 'ProjectController');
+
+Route::get('subscription/plans', 'SubscriptionController@getPlans');

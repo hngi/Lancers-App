@@ -21,9 +21,9 @@ class SubscriptionController extends Controller
 {
     use VerifyandStoreTransactions;
 
-    public function __construct(){
-        $this->middleware('auth');
-    }
+    // public function __construct(){
+    //     $this->middleware('auth');
+    // }
 
 
     function showSubscriptions()
@@ -97,6 +97,13 @@ class SubscriptionController extends Controller
             return view('userSubscription')->with(['plans'=> null,'dates' =>null]);
        
         }
+    }
+
+    public function getPlans()
+    {
+        $plans = SubscriptionPlan::select('name', 'price', 'features')->get();
+
+        return $this->success("plans retrieved", $plans);
     }
     
 }

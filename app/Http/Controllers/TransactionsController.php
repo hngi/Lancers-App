@@ -18,6 +18,7 @@ class TransactionsController extends Controller
      */
     public function index()
     {
+        // return request();
         $user = Auth::user();
         $transactions = $user->transactions()->paginate();
         

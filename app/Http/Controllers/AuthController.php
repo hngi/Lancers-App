@@ -37,25 +37,25 @@ class AuthController extends Controller
             'email' => 'required|string|email|unique:users',
             'password' => 'required|string|confirmed'
         ]);
-        
+
         if($validation->fails()) return $this->ERROR("error", $validation->errors());
 
         DB::beginTransaction();
 
         try{
 
-            $user = User::create(['name' => $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
-
-            $name = explode(" ",$request->name);
-            $user->profile()->create(['first_name' => $name[0], 'last_name' => $name[1]]);
+            $user = new User();
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->name = $request->name;
+            $user->password = bcrypt($request->password);
+            $user->save();
 
             $subscriber = new Subscription;
             $subscriber->subscribeToPlan(1 , $user->id, 12);
 
-            
-            $tokenResult = $user->createToken('Personal Access Token')->accessToken;
-            return $tokenResult;
-            
+
+            $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult;
 
             DB::commit();
@@ -63,12 +63,12 @@ class AuthController extends Controller
             DB::rollback();
             return $this->ERROR($e);
         }
-		// send email
+        // send email
 
         return $this->SUCCESS('Successfully created user', ['token'=>$token]);
 
     // }
-        
+
     }
 
 	
