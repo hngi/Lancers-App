@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Rules\IsUser;
 
 class ProjectController extends Controller
 {
@@ -62,8 +63,7 @@ class ProjectController extends Controller
 
         $project = $user->projects()->create($data);
 
-        // return $project;
-        return response()->json($project, 201);
+        return $this->SUCCESS($Project, $code = 201);
     }
 
     /**
@@ -122,8 +122,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        // return $project;
-        return response()->json($project, 200);
+        return $this->SUCCESS($project);
     }
 
     /**
@@ -140,8 +139,7 @@ class ProjectController extends Controller
             $project->delete();
         }
 
-        // return $project;
-        return response()->json(null, 204);
+        return $this->SUCCESS(null, $code = 204);
     }
 
     public function collaborators(Project $project)
@@ -157,7 +155,34 @@ class ProjectController extends Controller
             $person[$key]["designation"] = $team[$key]["designation"];
         }
 
-        // return $people;
-        return response()->json($people);
+        return $this->SUCCESS($people);
+    }
+
+    public function addCollaborator(Project $project, Request $request) {
+        $team = $project->collaborators ?? [];
+        $request->validate([
+            'user_id' => ['required', 'integer', new IsUser],
+            'designation' => 'required|string',
+        ]);
+
+        $user = Auth::user();
+        $max_collaborators = $user->subscription->features['collaborators'];
+
+        if(count($team) == $max_collaborators){
+            return $this->ERROR("You can only add $max_collaborators collaborators", $code = 412);
+        }
+
+        array_push($team, [
+            'user_id' => $request->input('user_id'),
+            'designation' => $request->input('designation')
+        ]);
+
+
+        $project = $project->update(['collaborators' => $team]);
+        // this wont work due to json to array cast
+        // $project->collaborators = $team;
+        // $project->save();
+
+        return $this->SUCCESS($project);
     }
 }

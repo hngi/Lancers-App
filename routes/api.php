@@ -13,24 +13,24 @@ use Illuminate\Http\Request;
 |
 */
 
+// Auth Routes
+Route::post('login', 'AuthController@login');
+Route::post('register', 'AuthController@register');
+
+Route::post('/password/forgot', 'AuthController@requestReset');
+Route::get('/password/reset/{token}', 'AuthController@findResetToken');
+Route::post('/password/reset', 'AuthController@resetPassword');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
 
-Route::post('/pay', 'RaveController@initialize')->name('pay');
-Route::post('/rave/callback', 'RaveController@callback')->name('callback');
-
-Route::get('/transactions', 'TransactionsController@index');
-Route::post('/transactions/add', 'TransactionsController@store');
-Route::get('/transactions/{id}', 'TransactionsController@show');
-Route::post('/transactions/delete/{id}', 'TransactionsController@destroy');
-
-Route::get('country', 'CountryController@country');
-
-Route::get('state', 'StateController@state');
-
-Route::get('currency', 'CurrencyController@currency');
+Route::group(['prefix' => 'data'], function() {
+    Route::get('countries', 'DataController@countries');
+    Route::get('states/{id}', 'DataController@states');
+    Route::get('currencies', 'DataController@currencies');
+});
 
 Route::get('tasks','TaskController@getAllTasks');
 Route::get('tasks/{id}', 'TaskController@getTask');
@@ -38,7 +38,15 @@ Route::post('tasks', 'TaskController@createTask');
 Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
 
-Route::group(['middleware' => 'auth:api'], function(){    
+Route::group(['middleware' => 'auth:api'], function(){  
+    // Transaction controller
+    Route::get('/transactions', 'TransactionsController@index');
+    
+	// Auth Routes
+    Route::post('/password/update', 'AuthController@updatePassword');
+    Route::post('/logout', 'AuthController@logout');
+    Route::get('/clear_session', 'AuthController@clear_session');
+      
     // Invoice API Routes
     Route::post('invoice/create', 'InvoiceController@store');
     Route::put('invoice/update', 'InvoiceController@update');
@@ -52,6 +60,16 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('client/delete', 'ClientController@delete');
     Route::get('client/list', 'ClientController@list');
     Route::get('client/{id}', 'ClientController@view');
+
+    // Project API Routes
+    Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
+
+    // Estimate API routes
+    Route::get('estimates/{project}','EstimateController@show');
+    Route::post('estimates','EstimateController@store');
+    Route::put('estimates/{estimate}','EstimateController@update');
+    Route::delete('estimates/{estimate}','EstimateController@destroy');
+     
 });
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
