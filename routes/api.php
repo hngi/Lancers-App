@@ -26,11 +26,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::get('/transactions', 'TransactionsController@index');
-Route::post('/transactions/add', 'TransactionsController@store');
-Route::get('/transactions/{id}', 'TransactionsController@show');
-Route::post('/transactions/delete/{id}', 'TransactionsController@destroy');
-
 Route::group(['prefix' => 'data'], function() {
     Route::get('countries', 'DataController@countries');
     Route::get('states/{id}', 'DataController@states');
@@ -44,6 +39,9 @@ Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
 
 Route::group(['middleware' => 'auth:api'], function(){  
+    // Transaction controller
+    Route::get('/transactions', 'TransactionsController@index');
+    
 	// Auth Routes
     Route::post('/password/update', 'AuthController@updatePassword');
     Route::post('/logout', 'AuthController@logout');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Transaction;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 
 class TransactionsController extends Controller
 {
@@ -19,9 +19,9 @@ class TransactionsController extends Controller
     public function index()
     {
         $user = Auth::user();
-        $transactions = $user->transactions->paginate();
+        $transactions = $user->transactions()->paginate();
         
-        return $this->SUCCESS($transactions);
+        return $this->success("ok",$transactions);
     }
 
 
