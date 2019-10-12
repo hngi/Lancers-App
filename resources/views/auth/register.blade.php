@@ -125,7 +125,7 @@
                     </div>
                     <div class="form-group">
                             <label for="my-password">Password Confirmation</label>
-                            <input id="password" class="form-control" name="password_confirmation" required autocomplete="new-password"> 
+                            <input id="password" type="password" class="form-control" name="password_confirmation" required autocomplete="new-password"> 
                             <span id="pmessage" ></span>
                         </div>
                     <div class="clearfix">

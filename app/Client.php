@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
+        protected $guarded = 'id';
+
     public function user(){
         return $this->belongsTo('App\User');
     }
@@ -20,12 +22,8 @@ class Client extends Model
 
     // protected $fillable = ["user_id", "name", "email", "profile_picture", "street", "street_number", "city", "country_id", "state_id", "zipcode", "timezone", "contacts"];
 
-    protected $guarded = ['id'];
 
-    public function user()
-    {
-        $this->belongsTo('App\User');
-    }
+
 
     public function project()
     {
