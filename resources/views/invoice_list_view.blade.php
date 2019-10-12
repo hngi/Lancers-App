@@ -541,8 +541,23 @@ tbody, .bold {
 <section>
              <button style="width: 8rem;
               background-color: #0ABAB5;
-              color: #fff;" id="create">Create Invoice</button>
+              color: #fff;padding: 6px 0;border:0;margin:16px" id="create">Create Invoice</button>
+<br>
 
+
+<span style="margin:16px "><strong>INVOICE</strong></span><br>
+
+<select style="margin: 16px;padding: 4px 8px">
+  <optgroup>
+    <option value="all">ALL</option>
+        <option value="paid">PAID</option>
+        <option value="unpaid">UNPAID</option>
+
+
+  </optgroup>
+</select>
+
+<br>
   @foreach($invoices as $invoice)
     
   {{var_dump($invoice['filename'])}}
