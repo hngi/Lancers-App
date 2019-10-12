@@ -15,4 +15,9 @@ class Profile extends Model
     	'contacts' => 'array'
     ];
 
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
+
 }
