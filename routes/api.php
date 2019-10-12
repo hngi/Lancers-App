@@ -58,4 +58,9 @@ Route::get('documents/{id}','DocumentsController@show');
 Route::post('documents','DocumentsController@store');
 Route::put('documents/{document}','DocumentsController@update');
 Route::delete('documents/{document}','DocumentsController@destroy');
+
 Route::resource('projects', 'ProjectController');
+
+Route::get('contact-messages','ContactMessageController@index');
+Route::get('contact-messages/{id}','ContactMessageController@show');
+Route::post('contact-messaget/create', 'ContactMessageController@store');
