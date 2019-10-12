@@ -26,15 +26,31 @@ Route::get('/pricing', function () {
 });
 
 
+
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+
+Route::get('/dashboard/profile', 'ProfileController@index')->name('dashboard-profile');
+
+Route::get('/dashboard/profile/view', 'ProfileController@userProfileDetails')->name('user-profile');
+
 
 Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
 
-Route::get('/users/subscriptions',"SubscriptionController@showSubscriptions")->name('subscriptions');
+Route::get('/users/subscriptions', "SubscriptionController@showSubscriptions")->middleware('auth')->name('subscriptions');
 
-Route::get('/users/subscribe/{txref?}',"SubscriptionController@subscribeUser");
+Route::get('/users/subscriptions/{planId}', "SubscriptionController@subscribeUser")->middleware('auth');
 
-Route::get('/users/view/subscriptions',"SubscriptionController@showPlan");
+Route::get('/users/view/subscriptions', "SubscriptionController@showPlan")->middleware('auth');
+
+Route::get('/users/settings/emails', "emailsettingsController@index")->middleware('auth');
+
+Route::put('/users/settings/emails', "emailsettingsController@updateEmailSettings")->middleware('auth')->name('SET-EMAIL');
+
+
+Route::post('/users/edit/profile/image', "ProfileController@updateImage")->middleware('auth')->name('Profile-Image');
+
+
+
 
 
 Route::post('/pay', 'RaveController@initialize')->name('pay');
