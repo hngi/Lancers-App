@@ -18,7 +18,7 @@ class CreateContractsTable extends Migration
             $table->integer('template_id');
             $table->integer('project_id');
             $table->enum('status', ['pending', 'signed']);
-            $table->string('filename');
+            $table->string('filename')->nullable();
             $table->timestamps();
         });
     }
