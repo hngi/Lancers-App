@@ -38,7 +38,7 @@ class AuthController extends Controller
             'password' => 'required|string|confirmed'
         ]);
         
-        if($validation->fails()) return $this->ERROR($validation->errors());
+        if($validation->fails()) return $this->ERROR("error", $validation->errors());
 
         DB::beginTransaction();
         try{
@@ -71,7 +71,7 @@ class AuthController extends Controller
 
             DB::commit();
         }catch (\Throwable $e) {
-            DB::rollback();
+            // DB::rollback();
             return $this->ERROR($e);
         }
 		// send email

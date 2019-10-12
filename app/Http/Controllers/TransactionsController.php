@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Transaction;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+// use App\Http\Controllers\Controller;
 
 class TransactionsController extends Controller
 {
