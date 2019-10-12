@@ -6,6 +6,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 use App\User;
 use App\Profile;
@@ -29,24 +30,28 @@ class AuthController extends Controller
 
     public function register(Request $request){
         // Validate Input
-        $validation = $request->validate([
-                        'name' => 'required',
-                        'email' => 'required|string|email|unique:users',
-                        'password' => 'required|string|confirmed'
-                    ]);
-		$name = explode(" ",$request->name);
+
+        $validation = Validator::make($request->all(), [
+            'name' => 'required',
+            'email' => 'required|string|email|unique:users',
+            'password' => 'required|string|confirmed'
+        ]);
+        
+        if($validation->fails()) return $this->ERROR($validation->errors());
         DB::beginTransaction();
         try{
             $user = new User();
             $user->email = $request->email;
+            $user->name = $request->name;
             $user->password = bcrypt($request->password);
             $user->save();
             
-            $profile = new Profile();
-            $profile->user_id =  $user->id;
-            $profile->first_name = $name[0];
-            $profile->last_name = $name[1];
-            $profile->save();
+		    // $name = explode(" ",$request->name);
+            // $profile = new Profile();
+            // $profile->user_id =  $user->id;
+            // $profile->first_name = $name[0];
+            // $profile->last_name = $name[1];
+            // $profile->save();
             
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult;
@@ -54,7 +59,7 @@ class AuthController extends Controller
             DB::commit();
         }catch (\Throwable $e) {
             DB::rollback();
-            return $this->db_error($e);
+            return $this->ERROR($e);
         }
 		// send email
         return $this->SUCCESS('Successfully created user', ['token'=>$token]);
