@@ -13,6 +13,14 @@ use Illuminate\Http\Request;
 |
 */
 
+// Auth Routes
+Route::post('login', 'AuthController@login');
+Route::post('register', 'AuthController@register');
+
+Route::post('/password/forgot', 'AuthController@requestReset');
+Route::get('/password/reset/{token}', 'AuthController@findResetToken');
+Route::post('/password/reset', 'AuthController@resetPassword');
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -38,7 +46,12 @@ Route::post('tasks', 'TaskController@createTask');
 Route::put('tasks/{id}', 'TaskController@updateTask');
 Route::delete('tasks/{id}','TaskController@deleteTask');
 
-Route::group(['middleware' => 'auth:api'], function(){    
+Route::group(['middleware' => 'auth:api'], function(){  
+	// Auth Routes
+    Route::post('/password/update', 'AuthController@updatePassword');
+    Route::post('/logout', 'AuthController@logout');
+    Route::get('/clear_session', 'AuthController@clear_session');
+      
     // Invoice API Routes
     Route::post('invoice/create', 'InvoiceController@store');
     Route::put('invoice/update', 'InvoiceController@update');
