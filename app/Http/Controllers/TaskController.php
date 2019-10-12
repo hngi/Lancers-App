@@ -104,7 +104,9 @@ class TaskController extends Controller
             $task->team = $people;
         });
 
-        return $tasks;
+        return response()->json($tasks, 200);
+
+        // return $tasks;
     }
 
     public function addTeam(Request $request, Task $task)
@@ -128,7 +130,9 @@ class TaskController extends Controller
 
         $task = $task->update(['team' => $team]);
 
-        return $task;
+        // return $task;
+        return response()->json($task, 200);
+
 
     }
 }
