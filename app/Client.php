@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-        protected $guarded = ['id'];
+        protected $guarded = 'id';
 
     public function user(){
         return $this->belongsTo('App\User');
