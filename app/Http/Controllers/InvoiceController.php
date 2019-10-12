@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Auth;
 use App\Invoice;
 use Illuminate\Http\Request;
+use App\Client;
 
 class InvoiceController extends Controller
 {
@@ -58,11 +59,15 @@ class InvoiceController extends Controller
             foreach($projects as $project){
                 if($project->invoice !== null)
                 {
+                    $project['client_name']= Client::where('id',1)->get()[0]['name'];
+
                  array_push($result, $project);
 
                 }
             }
         }
+
+
     count($result) > 0 ? $this->SUCCESS('Invoice retrieved', $projects) : $this->SUCCESS('No invoice found');
 
 
