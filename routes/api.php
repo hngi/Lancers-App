@@ -87,6 +87,12 @@ Route::put('tasks/{task}','TaskController@update');
 Route::delete('tasks/{task}','TaskController@destroy');
 Route::post('tasks/{task}/team', 'TaskController@addTeam');
 
+// Template API routes
+Route::resource('templates', 'TemplateController');
+
+// Document API routes
+Route::resource('documents', 'DocumentController');
+
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
 Route::post('documents','DocumentsController@store');
