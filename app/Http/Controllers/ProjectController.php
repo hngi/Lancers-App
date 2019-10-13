@@ -157,7 +157,9 @@ class ProjectController extends Controller
     public function list(){
 
 $data=[];
-
+ 
+//$data['projects']= Project::where('user_id',Auth::user()->id)->get();
+$data['projects']= Auth::user()->projects;
 return view("project_list")->with($data);
 
     }
