@@ -12,22 +12,18 @@ use Illuminate\Http\Request;
 class PaymentContoller extends Controller
 {
 
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($type, $ref = null)
+    public function create($type)
     {
         $user = Auth::user();
 
         $subcriptions = SubscriptionPlan::all();
-        $key = Transaction::$FLW_PUB_KEY;
+        $key = Transaction::$PYS_PUB_KEY;
         $txRef = Transaction::generateRef();
 
         $payment_types = [];
@@ -59,7 +55,7 @@ class PaymentContoller extends Controller
             if($sub){
                 if($sub->plan_id > $data['id']){
                     // return session value here
-                    return "Sorry, you cannot downgrade your subscription";
+                    return $this->error("Sorry, you cannot downgrade your subscription");
                 }
 
                 if($data['id'] > $sub->plan_id){                    
@@ -74,35 +70,38 @@ class PaymentContoller extends Controller
                 }
             }
 
-            if($data['id'] == 1){
-                return redirect($data['redirect']);
-            }
-            return view('payment')->with('data', $data);
-        }else if($type == "invoice"){
-            // if the requested payment is an invoice
-            if($ref == null){
-                return view('invalidpayment');
-            }else{
-                $invoice = Invoice::where('created_at', Carbon::parse($ref))->first();
-
-                if(!empty($invoice)){
-                    return view('invalidpayment');  
-                }else{                  
-                    $data = [
-                        "name" => "Invoice #".$ref,
-                        "amount" => $invoice->amount,
-                        "type" => 'invoice',
-                        "redirect" => '/invoice/pay/',
-                        "key" => $key,
-                        'ref' => $txRef,
-                        "id" => $invoice->id
-                    ];
-                }
-
-                return view('payment')->with('data', $data);
-            }
+            // if($data['id'] == 1){
+            //     return redirect($data['redirect']);
+            // }
+            return $this->success("payment details retrieved", $data);
         }else{
-            return view('invalidpayment');
+            return $this->error("Invalid payment option");
+        }
+    }
+
+
+    public function invoicePayment($ref)
+    {
+        if($ref == null){
+            return $this->error("Invalid payment option");
+        }else{
+            $invoice = Invoice::where('created_at', Carbon::parse($ref))->first();
+
+            if(!empty($invoice)){
+                return $this->error("Invalid payment option"); 
+            }else{                  
+                $data = [
+                    "name" => "Invoice #".$ref,
+                    "amount" => $invoice->amount,
+                    "type" => 'invoice',
+                    "redirect" => '/invoice/pay/',
+                    "key" => $key,
+                    'ref' => $txRef,
+                    "id" => $invoice->id
+                ];
+            }
+
+            return $this->success("payment details retrieved", $data);
         }
     }
 }

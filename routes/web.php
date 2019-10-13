@@ -40,6 +40,8 @@ Route::get('/users/subscriptions', "SubscriptionController@showSubscriptions")->
 
 Route::get('/users/subscriptions/{planId}', "SubscriptionController@subscribeUser")->middleware('auth');
 
+Route::get('users/subscribe/{txref}', "SubscriptionController@subscribeUser");
+
 Route::get('/users/view/subscriptions', "SubscriptionController@showPlan")->middleware('auth');
 
 Route::get('/users/settings/emails', "emailsettingsController@index")->middleware('auth');

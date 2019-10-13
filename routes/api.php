@@ -37,6 +37,9 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Subscription Apis
     Route::get('user/subscription', 'SubscriptionController@userSubscription');
+    Route::get('users/subscribe/{txref?}', "SubscriptionController@subscribeUser");
+    Route::get('payment/subscription/{type}/{ref?}', 'PaymentContoller@create');
+
     // Transaction controller
     Route::get('/transactions', 'TransactionsController@index');
     
@@ -51,6 +54,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('invoice/delete', 'InvoiceController@delete');
     Route::get('invoice/list', 'InvoiceController@list');
     Route::get('invoice/{id}', 'InvoiceController@view');
+    Route::get('payment/invoice/{ref}', 'PaymentContoller@invoice'); //ref is the timestamp value of the created_at field
 
     // Client API Routes
     Route::post('client/create', 'ClientController@store');
@@ -63,6 +67,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::resource('projects', 'ProjectController');
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
     Route::get('projects/{project}/collaborators', 'ProjectController@collaborators');
+    Route::delete('projects/{project}/collaborators/{user}', 'ProjectController@deleteCollaborator');
 
     // Estimate API routes
     Route::get('estimates/{project}','EstimateController@show');
@@ -70,7 +75,6 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::put('estimates/{estimate}','EstimateController@update');
     Route::delete('estimates/{estimate}','EstimateController@destroy');
 
-    
     
 });
 

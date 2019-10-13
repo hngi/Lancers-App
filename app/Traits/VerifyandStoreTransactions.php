@@ -14,16 +14,157 @@ Trait VerifyandStoreTransactions{
 		if($ref !== null){
 			$data = $this->runTransactionVerification($ref);
 
+			// dd($data);
 			return $data;
 		}else{
 			return [
 				'success' => false,
-				'reason' => 'Transaction not found'
+				'reason' => 'Invalid transaction'
 			];
 		}
 	}
 
-	public function runTransactionVerification($ref)
+	public function runTransactionVerification($ref){
+
+		$result = array();
+		//The parameter after verify/ is the transaction reference to be verified
+		$url = 'https://api.paystack.co/transaction/verify/'.$ref;
+
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+		curl_setopt(
+		  $ch, CURLOPT_HTTPHEADER, [
+		    'Authorization: Bearer '.Transaction::$PYS_PRV_KEY]
+		);
+		$request = curl_exec($ch);
+		curl_close($ch);
+
+		if ($request) {
+		    $result = json_decode($request, true);
+		    // print_r($result);
+		    if($result['status'] == false){
+		    	return [
+	        		'success' => false,
+	        		'reason' => 'Transaction not found'
+        		];
+		    }
+		    if($result){
+		      if($result['data']){
+		        //something came in
+
+		        $data = $result['data'];
+
+		        $chargeAmount = $data['amount'];
+
+		        $meta = $data['metadata']['custom_fields'];
+
+		        $type = $meta[0]['value'];
+
+		        $tx_id = $meta[1]['value'];
+
+		        $months = 0;
+		        $status = $data['status'] == 'success' ? 2 : 3;
+
+		        if($type == 'sub'){
+
+		        	$plan = SubscriptionPlan::find($tx_id);
+
+		        	$months = (int)$meta[2]['value'];
+
+		        	$amount = round($months * $plan->price, 2);
+
+		        	$narr = 'Subscription to '.str_replace("_", " ", $plan->name)." for $months months";
+		        }else{
+		        	$invoice = Invoice::find($tx_id);
+
+		        	$amount = $invoice->amount;
+
+		        	$narr = 'Payment for invoice #'.strtotime($invoice->created_at);
+		        }
+
+		       	$check_tx = Transaction::where('reference', $ref)->first();
+
+		        if($check_tx !== null){
+		        	return [
+		        		'success' => false,
+		        		'reason' => "This transaction has been previouly processed"
+		        	];
+		        }else{		        	
+			        if($data['status'] == 'success' && ((string)$chargeAmount == (string)$amount)){
+			          // the transaction was successful, you can deliver value
+			          /* 
+			          @ also remember that if this was a card transaction, you can store the 
+			          @ card authorization to enable you charge the customer subsequently. 
+			          @ The card authorization is in: 
+			          @ $result['data']['authorization']['authorization_code'];
+			          @ PS: Store the authorization with this email address used for this transaction. 
+			          @ The authorization will only work with this particular email.
+			          @ If the user changes his email on your system, it will be unusable
+			          */
+
+
+			          $this->storeTransaction($ref, $chargeAmount, $narr, $status);
+
+			        	if($type == 'sub'){
+			        		return [
+			        			'success' => true,
+			        			'plan_id' => $tx_id,
+			        			'months' => $months
+			        		];	
+			        	}else{
+			        		return [
+			        			'success' => true,
+			        			'invoice_id' => $tx_id
+			        		];	
+			        	}
+			        }else{
+			          // the transaction was not successful, do not deliver value'
+			          // print_r($result);  //uncomment this line to inspect the result, to check why it failed.
+
+			        	$this->storeTransaction($ref, $chargeAmount, $narr, $status);
+
+			            return [
+			            	'success' => false,
+			            	'reason' => "Invalid transaction contact support with the ref number: $ref"
+			            ];
+			        }
+		        }
+
+		      }else{
+		        // echo $result['message'];
+		        $this->storeTransaction($ref, $chargeAmount, $narr, $status);
+
+        		return [
+	            	'success' => false,
+	            	'reason' => "Sorry something went wrong, contact support with the ref number: $ref"
+	            ];
+
+		      }
+
+		    }else{
+		      //print_r($result);
+		    	$this->storeTransaction($ref, $chargeAmount, $narr, $status);
+
+		        return [
+	            	'success' => false,
+	            	'reason' => "Sorry something went wrong, contact support with the ref number: $ref"
+	            ];
+		      
+		    }
+		  }else{
+		    //var_dump($request);
+		    	$this->storeTransaction($ref, $chargeAmount, $narr, $status);
+
+		   		return [
+	            	'success' => false,
+	            	'reason' => "Sorry something went wrong, contact support with the ref number: $ref"
+	            ];
+		  }
+
+	}
+
+	public function runTransactionVerificationX($ref)
 	{
 		// $ref = $_GET['txref'];
         // $amount = ""; //Correct Amount from Server
@@ -32,7 +173,7 @@ Trait VerifyandStoreTransactions{
 
 
         $query = array(
-            "SECKEY" => Transaction::$FLW_PRV_KEY,
+            "SECKEY" => Transaction::$PYS_PRV_KEY,
             "txref" => $ref
         );
 

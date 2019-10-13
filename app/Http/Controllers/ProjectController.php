@@ -166,11 +166,15 @@ class ProjectController extends Controller
             ]);
 
             $user = Auth::user();
-            dd($user->subscription);
-            $max_collaborators = $user->subscription->features['collaborators'];
+            // dd($user->subscription);
+            $max_collaborators = $user->subscription->subscriptionPlan->features['collaborators'];
 
-            if(count($team) == $max_collaborators){
+            if(count($team) >= $max_collaborators){
                 return $this->ERROR("You can only add $max_collaborators collaborators", $code = 412);
+            }
+
+            if(in_array($request->user_id, array_column($team, "user_id"))){
+                return $this->error("collaborator already exists", []);
             }
 
             array_push($team, [
@@ -184,10 +188,39 @@ class ProjectController extends Controller
             // $project->collaborators = $team;
             // $project->save();
 
-            return $this->SUCCESS($project);
+            return $this->SUCCESS("collaborator added", $project);
         }else{
             return $this->error("Not authorized",[] , 401);
         }
+    }
+
+    public function deleteCollaborator(Project $project, $user)
+    {
+        $user_id = Auth::id();
+
+        if ($user_id == $project->user_id) {
+            $collaborators = $project->collaborators ?? [];
+
+            if(in_array($user, array_column($collaborators, "user_id"))){
+                           // return "here x";
+                $place = array_search($user, array_column($collaborators, "user_id"));
+
+                unset($collaborators[$place]);
+
+                $collaborators = array_values($collaborators);
+
+                $project->update(['collaborators' => $collaborators]);
+
+                return $this->success("collaborator removed", null , 204);
+
+                // return $this->success("collaborator removed", [] , 204);
+            }else{
+                return $this->error("collaborator not found", [], 404);
+            }
+        }else{
+            return $this->error("Not authorized",[] , 401);
+        }
+
     }
 
 
