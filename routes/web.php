@@ -26,7 +26,7 @@ Route::get('/pricing', function () {
 });
 
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::get('/dashboard', 'ProjectController@create')->name('dashboard');
 
 Route::get('/dashboard/profile', 'ProfileController@index')->name('dashboard-profile');
 
