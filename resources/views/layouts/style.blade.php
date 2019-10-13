@@ -135,12 +135,13 @@
         /* ---------------------------------------------------
             CONTENT STYLE
         ----------------------------------------------------- */
-        
+
         #content {
           width: 100%;
           min-height: 100vh;
           transition: all 0.3s;
         }
+        
         #sidebarCollapse {
           width: 40px;
           height: 40px;
