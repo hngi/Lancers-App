@@ -1,5 +1,13 @@
 
 @extends('layouts.master')  
+@section('styles')
+    @include('layouts.style')
+@endsection
+@section('nav')
+    @include('layouts.nav')
+@endsection
+
+
 @section('sidebar')
 
 
@@ -9,9 +17,9 @@
     <div class="bg-dark border-right" id="sidebar-wrapper">
       <div class="sidebar-heading">Lan<span class="colorC">c</span>ers </div>
       <div class="list-group list-group-flush">
-        <a href="#" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727367/home.svg" alt=""> Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
-        <!-- dropDown Menu -->
+        <a href="/dashboard" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727367/home.svg" alt=""> Dashboard</a>
+        <a href="/dashboard/client" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
+          <!-- dropDown Menu -->
       <div class="nav-item dropdown">
         <a href="#" class="nav-link list-group-item list-group-item-action bg-dark" data-toggle="dropdown">
         <img src="https://res.cloudinary.com/samtech/image/upload/v1570727368/lightbulb.svg" alt=""> Project  <svg width="16" height="12" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -52,52 +60,133 @@
 @endsection
 
 @section('content')
-<section>
+<section class="">
              <button style="width: 8rem;
               background-color: #0ABAB5;
               color: #fff;padding: 6px 0;border:0;margin:16px" id="create">Create Invoice</button>
 <br>
 
 
-<span style="margin:16px "><strong>INVOICE</strong></span><br>
-
-<select style="margin: 16px;padding: 4px 16px;border-radius: 5%">
-  <optgroup>
-    <option value="all">ALL</option>
-        <option value="paid">PAID</option>
-        <option value="unpaid">UNPAID</option>
 
 
-  </optgroup>
+<!--the new design-->
+<div class="container-fluid">
+<h4 class="mt-0 text-primary">INVOICE</h4><br>
+<div class="">
+<div class="">
+<form class="form-inline">
+<select class="form-control status">
+<option value="All">All</option>
+<option value="paid">PAID</option>
+<option value="unpaid">UNPAID</option>
 </select>
-
-<br>
-<div style="align-content: center;padding: 48px;">
-<table style="max-width:80%;align-self: center">
-  <tr>
-<td><b>Invoice</b></td>
-<td><b>Client</b></td>
-<td><b>Project</b></td>
-<td><b>Issued</b></td>
-<td><b>Status</b></td>
-<td><b>Amount</b></td>
-
-  </tr>
-
+</form>
+</div>
+<div class="table-responsive">
+<table class="table project-table table-borderless">
+<thead>
+<tr>
+    <th scope="col">Invoice</th>
+    <th scope="col">Client</th>
+    <th scope="col">Project</th>
+    <th class="text-right" scope="col">Issued</th>
+    <th class="text-right" scope="col">Status</th>
+    <th scope="col">Amount</th>
+    <th scope="col"> </th>
+</tr>
+</thead>
+<tbody>
   @foreach($projects as $project)
 
-<tr style="border: 1px solid lightgray;padding-top: 16px ">
-<td>2</td>
-<td>{{$project["client_name"]}}</td>
-<td>{{$project["title"]}}</td>
-<td>{{$project->invoice["issue_date"]}}</td>
-<td>{{$project->invoice["status"]}}</td>
-<td>{{$project->invoice["amount"]}}</td>
+<tr class="py-2">
+<td scope="row" class="rounded-left border border-right-0">
+<span class="text-small text-muted mr-2">
+<i class="fas fa-circle"></i>
+</span> 
+<span class="">{{$project->invoice["id"]}}</span>
+</td>
+<td class="border-top border-bottom titles">{{$project["client_name"]}}</td>
+<td class="border-top border-bottom text-left">{{$project["title"]}}</td>
 
-  </tr>
+<td class="border-top border-bottom text-right">{{$project->invoice["issue_date"]}}</td>
+
+<td class="border-top border-bottom text-right">
+<span class="alert alert-primary py-0 px-2 small m-0 {{$project->invoice['status']=='unpaid'?'Unpaid':'Paid'}}">
+  {{$project->invoice["status"]}}</span>
+</td>
+
+<td class="border-top border-bottom">
+ ₦{{$project->invoice["amount"]}}
+</td>
+
+<td class="rounded-right border border-left-0">
+<div class="dropdown dropleft">
+<a class="btn btn-white btn-sm dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <i class="fas fa-ellipsis-v"></i>
+</a>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+  <a class="dropdown-item text-success" href="#"><i class="fas fa-binoculars"></i> View</a>
+  <a class="dropdown-item text-secondary" href="#"><i class="fas fa-edit"></i> Edit</a>
+  <a class="dropdown-item text-danger" href="#"><i class="fas fa-trash-alt"></i> Delete</a>
+</div>
+</div>
+</td>
+</tr>
 
   @endforeach
+
+
+</tbody>
 </table>
 </div>
-  </section>
+</div>
+</div>
+</section>
+@endsection
+
+@section('script')
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#sidebarCollapse').on('click', function () {
+            $('#sidebar').toggleClass('active');
+            $(this).toggleClass('active');
+        });
+
+        const searchBox = document.querySelector('.searchBox');
+        const status = document.querySelector('.status');
+        const filterNames =()=>{
+            const titles = document.querySelectorAll('.titles');
+            const searchBoxValue = searchBox.value.toLowerCase();
+        
+            titles.forEach(title=>{
+                if(!title.textContent.toLowerCase().includes(searchBoxValue)){
+                    title.parentElement.style.display = "none"
+                }else{
+                    title.parentElement.style.display = "";
+                }
+            })
+        }
+
+        const filterStatus =()=>{
+            const statusText = document.querySelectorAll('.alert-primary')
+            
+            statusText.forEach(text => {
+                if(status.value !== 'All'){
+                    if(status.value === text.textContent){
+                        text.parentElement.parentElement.style.display = ""
+                    }else{
+                        text.parentElement.parentElement.style.display = "none"
+                    }
+                 }else{
+                    text.parentElement.parentElement.style.display = ""
+                 }
+            })  
+        }
+
+        searchBox.addEventListener('keyup', filterNames);
+
+        status.addEventListener('change', filterStatus);
+           
+    });
+</script>
 @endsection

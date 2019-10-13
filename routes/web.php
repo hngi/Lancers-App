@@ -26,7 +26,7 @@ Route::get('/pricing', function () {
 });
 
 
-Route::get('/dashboard', 'HomeController@index')->name('dashboard');
+Route::get('/dashboard', 'ProjectController@create')->name('dashboard');
 
 Route::get('/dashboard/profile', 'ProfileController@index')->name('dashboard-profile');
 
@@ -109,4 +109,7 @@ Route::get('/invoice/pdf', function() {
 
 
 Route::get('/dashboard/invoice_list', "InvoiceController@list");
+
+Route::get('/dashboard/client', "ClientController@addClient");
+Route::post('/dashboard/add_client', "ClientController@store");
 
