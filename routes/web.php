@@ -110,6 +110,6 @@ Route::get('/invoice/pdf', function() {
 
 Route::get('/dashboard/invoice_list', "InvoiceController@list");
 
-Route::post('/dashboard/client', "ClientController@addClient");
+Route::get('/dashboard/client', "ClientController@addClient");
 Route::post('/dashboard/add_client', "ClientController@store");
 
