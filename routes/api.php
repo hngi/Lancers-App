@@ -32,11 +32,6 @@ Route::group(['prefix' => 'data'], function() {
     Route::get('currencies', 'DataController@currencies');
 });
 
-Route::get('tasks','TaskController@getAllTasks');
-Route::get('tasks/{id}', 'TaskController@getTask');
-Route::post('tasks', 'TaskController@createTask');
-Route::put('tasks/{id}', 'TaskController@updateTask');
-Route::delete('tasks/{id}','TaskController@deleteTask');
 
 Route::group(['middleware' => 'auth:api'], function(){  
 
@@ -66,13 +61,40 @@ Route::group(['middleware' => 'auth:api'], function(){
 
     // Project API Routes
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
-     
+
+    // Estimate API routes
+    Route::get('estimates/{project}','EstimateController@show');
+    Route::post('estimates','EstimateController@store');
+    Route::put('estimates/{estimate}','EstimateController@update');
+    Route::delete('estimates/{estimate}','EstimateController@destroy');
+
+    
+    
 });
+
+// Task API routes
+Route::get('tasks/{project}','TaskController@index');
+Route::get('tasks/detail/{task}','TaskController@show');
+Route::post('tasks','TaskController@store');
+Route::put('tasks/{task}','TaskController@update');
+Route::delete('tasks/{task}','TaskController@destroy');
+Route::post('tasks/{task}/team', 'TaskController@addTeam');
+Route::get('tasks/{task}/team', 'TaskController@team');
+
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
 Route::post('documents','DocumentsController@store');
 Route::put('documents/{document}','DocumentsController@update');
 Route::delete('documents/{document}','DocumentsController@destroy');
+<<<<<<< HEAD
 Route::resource('projects', 'ProjectController');
 
 Route::get('subscription/plans', 'SubscriptionController@getPlans');
+=======
+
+Route::resource('projects', 'ProjectController');
+
+Route::get('contact-messages','ContactMessageController@index');
+Route::get('contact-messages/{id}','ContactMessageController@show');
+Route::post('contact-messaget/create', 'ContactMessageController@store');
+>>>>>>> 8455d89cc34c5c7aaad76eaa3998bc61e2ab1651

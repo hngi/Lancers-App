@@ -14,18 +14,19 @@ use App\Subscription;
 
 class AuthController extends Controller
 {
-    public function login(Request $request){ 
-
+    public function login(Request $request){
         //logic for logging in with username or email, and password.
-        if(Auth::attempt([
-            'email' => $request->email,
-            'password' => $request->password
-        ])){
+        if(
+            Auth::attempt([
+                'email' => $request->email,
+                'password' => $request->password
+            ])
+        ){
             $user = Auth::user();
-            $token = $user->createToken('lANCERSApp')->accessToken;
-			return $this->SUCCESS('Login successful', ['token' => $token, 'user' => $user]);
+            $token = $user->createToken('Personal Access Token');
+			return $this->SUCCESS('Login successful', ['access_token' => $token->accessToken, 'expires_in'=>strtotime($token->token->expires_at)- time(), 'user' => $user]);
         }else{
-			return $this->ERROR('Unauthorized');
+			return $this->ERROR('Login failed');
         }
     }
 
@@ -50,10 +51,9 @@ class AuthController extends Controller
             $user->name = $request->name;
             $user->password = bcrypt($request->password);
             $user->save();
-
+            
             $subscriber = new Subscription;
             $subscriber->subscribeToPlan(1 , $user->id, 12);
-
 
             $tokenResult = $user->createToken('Personal Access Token');
             $token = $tokenResult;
@@ -65,7 +65,7 @@ class AuthController extends Controller
         }
         // send email
 
-        return $this->SUCCESS('Successfully created user', ['token'=>$token]);
+        return $this->SUCCESS('Successfully created user', ['access_token' => $token->accessToken, 'expires_in'=>strtotime($token->token->expires_at)- time(), 'user' => $user]);
 
     // }
 

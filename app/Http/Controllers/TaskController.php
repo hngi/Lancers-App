@@ -6,6 +6,7 @@ use App\Task;
 use App\User;
 use App\Project;
 use Illuminate\Http\Request;
+use App\Rules\IsUser;
 
 class TaskController extends Controller
 {
@@ -15,124 +16,127 @@ class TaskController extends Controller
         $this->middleware('auth');
     }
 
-    //Create, Get, Update and Delete Tasks
-
-    public function getAllTasks() {
-        $tasks = Task::get()->toJson(JSON_PRETTY_PRINT);
-        return response($tasks, 200);
-    }
-
-    public function createTask(Request $request) {
-
-        $task = new Task;
-        $task->name = $request->name;
-        $task->progress = $request->progress;
-        $task->team = $request->team;
-        $task->due_date = $request->due_date;
-        $task->start_date = $request->start_date;
-        $task->project_id = $request->project_id;
-        $task->status = $request->status;
-        $task->created_at = $request->created_at;
-        $task->updated_at = $request->updated_at;
-        $task->save();
     
-        return response()->json([
-            "message" => "task created"
-        ], 201);
-    }
-
-    public function getTask($id) {
-        if (Task::where('id', $id)->exists()) {
-            $task = Task::where('id', $id)->get()->toJson(JSON_PRETTY_PRINT);
-            return response($task, 200);
-          } else {
-            return response()->json([
-              "message" => "Task not found"
-            ], 404);
-          }
-
-    }
-
-    public function updateTask(Request $request, $id) {
-        if (Task::where('id', $id)->exists()) {
-            $task = Task::find($id);
-            $task->name = is_null($request->name) ? $task->name : $request->name;
-            $task->progress = is_null($request->progress) ? $task->progress : $request->progress;
-            $task->team = is_null($request->team) ? $task->team : $request->team;
-            $task->due_date = is_null($request->due_date) ? $task->due_date : $request->due_date;
-            $task->start_date = is_null($request->start_date) ? $task->start_date : $request->start_date;
-            $task->project_id = is_null($request->project_id) ? $task->project_id : $request->project_id;
-            $task->status = is_null($request->status) ? $task->status : $request->status;
-            $task->updated_at = is_null($request->updated_at) ? $task->updated_at : $request->updated_at;
-            $student->save();
-    
-            return response()->json([
-                "message" => "records updated successfully"
-            ], 200);
-            } else {
-            return response()->json([
-                "message" => "Task not found"
-            ], 404);
-            
+    public function index(Project $project)
+    {
+        $tasks = Task::where('project_id', $project->id)->get();
+        if($tasks){
+            return $this->SUCCESS($tasks);
         }
-
+        return $this->ERROR('no Task Found');
     }
 
-    public function deleteTask($id) {
-    if(Task::where('id', $id)->exists()) {
-        $task = Task::find($id);
-        $task->delete();
-
-        return response()->json([
-          "message" => "records deleted"
-        ], 202);
-      } else {
-        return response()->json([
-          "message" => "Task not found"
-        ], 404);
-      }
-    }
-
-    public function projectTasks(Project $project)
+    
+    public function show(Task $task)
     {
-        $tasks = $project->tasks()->select('id', 'name', 'created_at', 'status', 'team')->get();
-
-        $tasks->each(function($task, $key){
-
-            $people = User::whereIn('id', array_column($task->team ?? [], "user_id"))->select('name', 'profile_picture')->get()->toArray();
-
-            $task->team = $people;
-        });
-
-        return response()->json($tasks, 200);
-
-        // return $tasks;
+        if($task){
+            return $this->SUCCESS($task);
+        }
+        return $this->ERROR('Task not Found');
     }
 
-    public function addTeam(Request $request, Task $task)
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
     {
-        $this->validate($request, [
-            'user_id' => 'required|numeric',
-            'designation' => 'nullable|string'
+        $request->validate([
+            'name' => 'required|string',
+            'progress' => 'nullable|numeric',
+            'team' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'start_date' => 'nullable|date',
+            'project_id' => 'required|numeric',
+            'status' => 'nullable|string'
         ]);
 
-        $data = [
-            'user_id' => $request->user_id
-        ];
+        $task = Task::create($request->all());
 
-        if(isset($request->designation)){
-            $data['designation'] = $request->designation;
+        if ($task) {
+            return $this->SUCCESS($task);
         }
 
-        $team = $task->team ?? [];
+        return $this->ERROR('Task creation failed');
+    }
 
-        $team[] = $data;
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Task $task)
+    {
+        $request->validate([
+            'name' => 'required|string',
+            'progress' => 'nullable|numeric',
+            'team' => 'nullable|string',
+            'due_date' => 'nullable|date',
+            'start_date' => 'nullable|date',
+            'project_id' => 'required|numeric',
+            'status' => 'nullable|string'
+        ]);
+
+        $task = Task::where('project_id', $request->input('project_id'))->first();
+
+        if ($task) {
+            $task->update($request->all());
+            return $this->SUCCESS($task);
+        }
+
+        return $this->ERROR('Task not found');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Task $task)
+    {
+        if($task = Task::find($task->id)){
+            $task->delete();
+            return $this->SUCCESS('Task Deleted');
+        }
+        return $this->ERROR('Task deletion failed');
+    }
+
+    public function addTeam(Task $task, Request $request) {
+        $team = $task->team ?? [];
+        $request->validate([
+            'user_id' => ['required', 'integer', new IsUser],
+            'designation' => 'required|string',
+        ]);
+
+        array_push($team, [
+            'user_id' => $request->input('user_id'),
+            'designation' => $request->input('designation')
+        ]);
+
 
         $task = $task->update(['team' => $team]);
 
-        // return $task;
-        return response()->json($task, 200);
+        return $this->SUCCESS($task);
+    }
 
+    public function team(Task $task)
+    {
+        $team = $task->team ?? [];
+        
+        // fetch all the team mates as users with profile_picture, name
+        $members_id = array_column($team, "user_id");
+        $members = User::whereIn('id', $members_id)->select('id', 'name', 'profile_picture')->get();
 
+        // add profile profile_picture name to main data
+        foreach ($members as $key => $person) {
+            $members[$key]["designation"] = $team[$key]["designation"];
+        }
+
+        return $this->SUCCESS($members);
     }
 }
