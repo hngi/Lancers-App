@@ -11,20 +11,59 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+
+     public function addClient(){
+        
+
+        return view("add_client");
+    }
+
     public function store(Request $request){
         $data = $request->all();
-        // $validation = Validation::clients($data);
-        // if(!$validation) return $this->ERROR('Form validation failed', $validation);
-        
-        try{
-            if(Client::create($data)){
-                logger('New client created - ' . $data['name']);
-                return $this->SUCCESS('New client created');
-            }
-            return $this->ERROR('Client creation failed');
-        }catch(\Throwable $e){
-            return $this->ERROR('Client creation failed', $e);
-        }
+
+        //validate all field
+
+$val=[];
+$me =[];
+foreach ($request->input() as $key => $value) {
+    $val[$key]= 'required';
+    $me["$key.required"]=ucfirst($key) ." is required"; 
+
+}
+  $request->validate($val,$me);
+
+
+    $client = new Client;
+    $client->name= $data['company'];
+    $client->street=$data['streetname'];
+    $client->street_number=$data['strnumber'];
+    $client->city=$data['city'];
+    $client->zipcode=$data['postalcode'];
+    $client->email =$data['contactemail'];
+    /*no country id so 1 will be sent 
+        $client->country_id=$data['country'];
+        $client->state_id=$data['state'];
+
+        */
+        //since frontend is not sending correct data
+  $client->country_id=1;
+        $client->state_id=1;
+
+
+      /*
+        i will be saving th contact in array and as json format in db 
+
+
+        */
+
+
+$contact[0]  = array("contact_name"=>$data['contactname'],"contact_email"=>$data['contactemail']);
+ 
+  $client->contacts= json_encode($contact,true);
+  $client->user_id = Auth::user()->id;
+  $client->save();
+
+return redirect('dashboard/client')->with('success',"Client Added");
     }
 
     public function update(Request $request){

@@ -17,8 +17,10 @@
 
     <!-- Styles -->
     {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet">  --}}
+      
    {{-- //inline styles --}}
-    @yield('styles')
+       @yield('styles')
+
     
 </head>
 <body>
@@ -26,11 +28,12 @@
     {{-- //sidebar --}}
     
     {{-- @auth --}}
-       @yield('sidebar') 
+    @yield('sidebar')
     {{-- @endauth --}}
 
 {{-- //top navigation bar --}}
-    @yield('header')
+    @yield('nav')
+
 
     @yield('content')
 
