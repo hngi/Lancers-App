@@ -97,8 +97,6 @@ Route::get('/set_estimate', function () {
 });
 
 
-Route::resource('projects', 'ProjectController');
-Route::get('projects/{project}/tasks', 'TaskController@projectTasks');
 
     Route::get('/transactions', 'TransactionsController@index');
 

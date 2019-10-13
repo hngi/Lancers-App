@@ -17,18 +17,18 @@ $factory->define(Client::class, function (Faker $faker, $user) {
         'zipcode' => $faker->postcode,
         'country_id' => $country = $faker->randomElement($countries),
         'state_id' => \App\State::inRandomOrder()->get()->pluck('id')->toArray()[0] ,
-        'contacts' => json_encode([
-                	[
-                		"name" => $faker->name,
-                		"email" => $faker->email,
-                		"phone" => $faker->phoneNumber
-                	],
-                	[
-                		"name" => $faker->name,
-                		"email" => $faker->email,
-                		"phone" => $faker->phoneNumber
-                	]
-                ]),
+        'contacts' => [
+        	[
+        		"name" => $faker->name,
+        		"email" => $faker->email,
+        		"phone" => $faker->phoneNumber
+        	],
+        	[
+        		"name" => $faker->name,
+        		"email" => $faker->email,
+        		"phone" => $faker->phoneNumber
+        	]
+        ],
         'timezone' => $faker->timezone
     ];
 });

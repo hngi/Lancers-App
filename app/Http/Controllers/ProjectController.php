@@ -3,17 +3,13 @@
 namespace App\Http\Controllers;
 
 use Auth;
+use App\User;
 use App\Project;
-use Illuminate\Http\Request;
 use App\Rules\IsUser;
+use Illuminate\Http\Request;
 
 class ProjectController extends Controller
 {
-    public function __construct()
-    {
-        $this->middleware('auth');          
-    }
-
 
     /**
      * Display a listing of the resource.
@@ -30,12 +26,6 @@ class ProjectController extends Controller
         return response()->json($projects, 200);
         
     }
-
-    public function create()
-    {
-        return view('createproject');
-    }
-
 
     /**
      * Store a newly created resource in storage.
@@ -63,7 +53,7 @@ class ProjectController extends Controller
 
         $project = $user->projects()->create($data);
 
-        return $this->SUCCESS($Project, $code = 201);
+        return $this->success($project, $code = 201);
     }
 
     /**
@@ -74,19 +64,9 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return response()->json($project, 201);
+        return $this->success("Projects retrieved", $project, 201);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Project  $project
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Project $project)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.

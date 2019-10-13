@@ -60,6 +60,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('client/{id}', 'ClientController@view');
 
     // Project API Routes
+    Route::resource('projects', 'ProjectController');
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
 
     // Estimate API routes
@@ -87,11 +88,7 @@ Route::post('documents','DocumentsController@store');
 Route::put('documents/{document}','DocumentsController@update');
 Route::delete('documents/{document}','DocumentsController@destroy');
 
-Route::resource('projects', 'ProjectController');
-
 Route::get('subscription/plans', 'SubscriptionController@getPlans');
-
-Route::resource('projects', 'ProjectController');
 
 Route::get('contact-messages','ContactMessageController@index');
 Route::get('contact-messages/{id}','ContactMessageController@show');
