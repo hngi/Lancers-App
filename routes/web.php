@@ -12,7 +12,7 @@
 */
 
 Route::get('/', function () {
-    return view('index');
+    return view('welcome');
 });
 
 Route::post('/contracts/{project_id}/{template_id}', 'ContractControler@store')->name('create.contract');
@@ -24,6 +24,8 @@ Auth::routes();
 Route::get('/pricing', function () {
     return view('pricing');
 });
+
+
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::post('/users/edit/profile', "ProfileController@editProfile")->middleware('auth')->name('edit-profile');
