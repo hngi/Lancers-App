@@ -113,3 +113,4 @@ Route::get('/dashboard/invoice_list', "InvoiceController@list");
 Route::get('/dashboard/client', "ClientController@addClient");
 Route::post('/dashboard/add_client', "ClientController@store");
 
+Route::get('/dashboard/projects_list', "ProjectController@list");
