@@ -51,6 +51,34 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+      <script>
+
+            $("#imge1").click(function () {
+            $("#pc1").trigger('click');
+            });
+
+
+            //This function helps display profile image selected by user
+
+            function image1(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#imge1')
+                        .attr('src', e.target.result)
+                        .width(100)
+                        .height(100);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+            var upload_button = document.getElementById("picture_upload");
+            upload_button.style.display = "block";
+            }
+
+
+            </script>
    {{--  // inline scrpt  --}}
    
    @yield('script')
