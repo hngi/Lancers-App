@@ -32,7 +32,6 @@ class EstimateController extends Controller
      */
     public function store(Request $request)
     {
-                return $request->input();
         $request->validate([
             'project_id' => 'required|numeric',
             'time' => 'required|numeric',
