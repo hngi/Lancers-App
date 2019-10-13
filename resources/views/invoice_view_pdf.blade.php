@@ -2,14 +2,12 @@
 
 @section('styles')
 <style>
-
     *{
         box-sizing: border-box;
     }
     table {
         border-spacing: 5px;
     }
-
     td,
     th {
         width: 46vw;
@@ -35,7 +33,6 @@ thead, .table-date {
         color: #A6A6A6;
 }
 tbody, .bold {
-
         font-family: Ubuntu;
         font-size: .97rem;
         font-weight: 500;
@@ -106,7 +103,6 @@ tbody, .bold {
     p {
         margin-bottom: .5rem;
       }
-
 body {
     overflow-x: hidden;
 }
@@ -203,7 +199,6 @@ svg {
 #page-content-wrapper {
   min-width: 100%;
 }
-
 #wrapper.toggled #sidebar-wrapper {
   margin-left: 0;
 }
@@ -280,9 +275,7 @@ tbody, .bold {
         width: 4.5rem;
         float: right;
     }
-
 .btn-outline-dark {
-
         font-family: Ubuntu;
         font-weight: bold;
         font-size: 12px;
@@ -312,12 +305,10 @@ tbody, .bold {
     height: 76vw;
     width: 20vh;
   }
-
   #page-content-wrapper {
     min-width: 0;
     width: 100%;
   }
-
 img {
       width: .65rem;
       margin-right: .5rem;

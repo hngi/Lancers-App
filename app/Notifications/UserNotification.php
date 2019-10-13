@@ -12,15 +12,15 @@ class UserNotification extends Notification
     use Queueable;
 
 
-    public $message;
+    public $token;
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct($message)
+    public function __construct($token)
     {
-        $this->message = $message;
+        $this->token = $token;
     }
 
     /**
@@ -31,7 +31,7 @@ class UserNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['database','mail'];
+        return ['mail'];
     }
 
     /**
@@ -43,10 +43,9 @@ class UserNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->subject($this->message['subject'])
-                    ->greeting("Hello ".explode(" ", $notifiable->name)[0])
-                    ->line($this->message['body'])
-                    ->action($this->message['action']['text'], url($this->message['action']['url']))
+                    ->line('You are receiving this email because we received a password reset request for your account.')
+                    ->action('Reset Password', route('password.reset.token',['token' => $this->token]))
+                    ->line('If you did not request a password reset, no further action is required.')
                     ->line('Thank you for using Lancers!');
     }
 
