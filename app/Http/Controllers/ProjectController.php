@@ -152,4 +152,13 @@ class ProjectController extends Controller
 
         return $people;
     }
+
+
+    public function list(){
+
+$data=[];
+
+return view("project_list")->with($data);
+
+    }
 }
