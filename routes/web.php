@@ -26,7 +26,6 @@ Route::get('/pricing', function () {
 });
 
 
-
 Route::get('/dashboard', 'HomeController@index')->name('dashboard');
 
 Route::get('/dashboard/profile', 'ProfileController@index')->name('dashboard-profile');
@@ -102,7 +101,7 @@ Route::get('projects/{project}/tasks', 'TaskController@projectTasks');
 
 
 Route::get('/invoice/pdf', function() {
-    //return view('invoice_view_pdf');
+    return view('invoice_view_pdf');
 
     $pdf = PDF::loadView('invoice_view_pdf');  
     return $pdf->download('lancers_invoice.pdf');
@@ -110,3 +109,4 @@ Route::get('/invoice/pdf', function() {
 
 
 Route::get('/dashboard/invoice_list', "InvoiceController@list");
+
