@@ -543,7 +543,7 @@ tbody, .bold {
     <div class="container ">
         <div class="row mt-5 ml-4">
           <button type="button" class="btn btn-outline-dark ">Print</button>
-          <button type="button" class="btn btn-outline-dark ml-4">Download as PDF   </button>
+          <a href="{{URL::to('/invoice/pdf')}}" class="btn btn-outline-dark ml-4">Download as PDF   </a>
           <button type="button" class="btn btn-outline-dark ml-auto">Edit</button>
           <button type="button" class="btn btn-primary ml-4">Other actions</button>
         </div>

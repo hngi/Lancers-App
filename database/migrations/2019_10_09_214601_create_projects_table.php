@@ -22,8 +22,8 @@ class CreateProjectsTable extends Migration
             $table->integer('estimate_id')->nullable();
             $table->string('tracking_code')->nullable();
             $table->integer('invoice_id')->nullable();
-            $table->integer('progress')->default(0);
-            $table->text('collaborators');
+            $table->integer('progress')->default(0)->nullable();
+            $table->text('collaborators')->nullable();
             $table->enum('status', ['pending', 'in-progress', 'completed']);
             $table->integer('contract_id')->nullable();
             $table->timestamps();

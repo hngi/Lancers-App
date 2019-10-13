@@ -21,18 +21,6 @@ class SubscriptionController extends Controller
 {
     use VerifyandStoreTransactions;
 
-    public function __construct(){
-        $this->middleware('auth');
-    }
-
-
-    function showSubscriptions()
-    {
-        $plans = SubscriptionPlan::all()->toArray();
-        return view('subscriptions')->with(['plans'=> $plans]);
-
-    }
-
     function subscribeUser(Request $request, $txref = null, SubscriptionPlan $plan,Subscription $Subscriber)
     {
         if($txref !== null){
@@ -46,7 +34,7 @@ class SubscriptionController extends Controller
         }
 
         if(!$data['success']){
-            return $data['reason'];
+            return $this->error($data['reason']);
         }else{          
             $planId = $data['plan_id'];
             $months = $data['months'];
@@ -57,46 +45,37 @@ class SubscriptionController extends Controller
             if($planDetails['status']){
                //subscribe user to plan selected
 
-                //check for user plan and delete and update
-                //or if there is no plan insert
-                if($months < 1){
-                    return redirect('/users/subscriptions')->with(['editErrors'=>'Subscription months must be at least 1']);
-                }
 
                 //main logic present in Subscription model
                 $subscribeUserToPlan = $Subscriber->subscribeToPlan($planDetails['data']['id'], Auth::id(), $months);
 
-                if( $subscribeUserToPlan) {
-                    return redirect('/users/subscriptions')->with(['editStatus'=>'User subscribed to ', 'plan'=> str_replace("_"," " ,ucfirst($planDetails['data']['name']))]);       
-                } else {
-                    return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
+                if($subscribeUserToPlan === true){
+                    return $this->success("Subscribed sucessfully", str_replace("_"," " ,ucfirst($planDetails['data']['name'])) )
+                }else {
+                    return $this->error("Subscription failed");
                 }      
             } else {
-               return redirect('/users/subscriptions')->with(['editErrors'=>'Plan subscription not successful']);
+               return $this->error("Subscription failed");
             }
         }
 
     }
 
 
-    function showPlan()
+    public function getPlans()
     {
-        $userDetails = auth()->user();
-        $user_id = auth()->user()->toArray()['id'];
-        $plan = Subscription::where('user_id',$user_id)->first();
-        if($plan != null)
-        {
-            $planStartDate = $plan->toArray()['startdate'];
-            $planEndDate = $plan->toArray()['enddate'];
-            $userPlan = SubscriptionPlan::where('id',$plan->toArray()['plan_id'])->first();
-          
-            return view('userSubscription')->with(['plans'=> $userPlan->toArray(),'dates' => [$planStartDate,$planEndDate]]);
-        }
-        else {
-            //no plan to show
-            return view('userSubscription')->with(['plans'=> null,'dates' =>null]);
-       
-        }
+        $plans = SubscriptionPlan::select('name', 'price', 'features')->get();
+
+        return $this->success("plans retrieved", $plans);
+    }
+
+    public function userSubscription()
+    {
+        $user = Auth::user();
+        $subscription = $user->subscription()->select('id', 'plan_id', 'startdate', 'enddate')->with('subscriptionPlan:id,name,price')->get();
+
+        return $this->success("successful", $subscription);
+
     }
     
 }

@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateSupportMessagesTable extends Migration
+class CreateContactMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSupportMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('support_messages', function (Blueprint $table) {
+        Schema::create('contact_messages', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->text('subject');
@@ -29,6 +29,6 @@ class CreateSupportMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('support_messages');
+        Schema::dropIfExists('contact_messages');
     }
 }

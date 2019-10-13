@@ -66,4 +66,9 @@ class Subscription extends Model
     public function user(){
         return $this->belongsTo('App\User');
     }
+
+    public function subscriptionPlan()
+    {
+        return $this->hasOne('App\SubscriptionPlan', 'id','plan_id');
+    }
 }

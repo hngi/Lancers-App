@@ -17,6 +17,8 @@ class CreateTemplatesTable extends Migration
             $table->bigIncrements('id');
             $table->string('thumbnail');
             $table->string('name');
+            $table->text('body');
+            $table->enum('type', ['contract', 'proposal']);
             $table->timestamps();
         });
     }

@@ -15,11 +15,10 @@ class ClientController extends Controller
         $data = $request->all();
         // $validation = Validation::clients($data);
         // if(!$validation) return $this->ERROR('Form validation failed', $validation);
-        
         try{
             if(Client::create($data)){
                 logger('New client created - ' . $data['name']);
-                return $this->SUCCESS('New client created');
+                return $this->SUCCESS('New client created', $data);
             }
             return $this->ERROR('Client creation failed');
         }catch(\Throwable $e){
@@ -29,16 +28,17 @@ class ClientController extends Controller
 
     public function update(Request $request){
         $data = $request->all();
-        $client = Client::where('user_id', $data['user_id'])->first();
+        $client = Client::find($request->id);
         try{
             if($client){
+                // dd($client);
                 $client->update($data);
-                logger('Client record modified successfully - ' . $data['name']);
-                return $this->SUCCESS('Client record modified successfully - ' . $data['name']);
+                logger('Client record modified successfully - ' . $client->name);
+                return $this->SUCCESS('Client record modified successfully - ' . $client->name);
             }
             return $this->ERROR('No record found for specified client');
         }catch(\Throwable $e){
-            return $this->ERROR('Client creation failed', $e);
+            return $this->ERROR('Unable to update client', $e);
         }
     }
 
@@ -53,13 +53,13 @@ class ClientController extends Controller
 
     public function list(){
         $user = Auth::user();
-        $clients = $user->clients()->select('id,name,profile_picture')->with('project:name,status')->get()->paginate(10);
+        $clients = $user->clients()->select('id','name','contacts','profile_picture')->with('project:title,status')->paginate(10);
 
         // $user = User::find(1);
         // return $users->projects()->clients()->;
         
         // $client = Client::where('user_id', Auth::user()->id)->paginate(10);
-        return $client !== null ? $this->SUCCESS('Client retrieved', $client) : $this->SUCCESS('No client found');
+        return $clients !== null ? $this->SUCCESS('Client retrieved', $clients) : $this->SUCCESS('No client found');
     }
 
     public function view($client_id){

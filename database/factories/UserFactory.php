@@ -26,10 +26,10 @@ $factory->define(User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Document::class, function (Faker $faker) {
+// $factory->define(App\Document::class, function (Faker $faker) {
  
-    return [
-        'title' => $faker->word,
-        'body' => $faker->sentence,
-    ];
-});
+//     return [
+//         'title' => $faker->word,
+//         'body' => $faker->sentence,
+//     ];
+// });

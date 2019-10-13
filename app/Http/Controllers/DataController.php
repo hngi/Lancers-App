@@ -11,15 +11,21 @@ class DataController extends Controller
 {
     public function countries()
     {
-    	return Country::select('id', 'name')->get();
+    	$countries = Country::select('id', 'name')->get();
+
+        return $this->SUCCESS($countries);
     }
 
     public function states($id){
-    	return State::where('country_id', $id)->select('id', 'name')->get();
+    	$states = State::where('country_id', $id)->select('id', 'name')->get();
+
+        return $this->SUCCESS($states);
     }
 
     public function currencies()
     {
-    	return Currency::select('id','code')->get();
+    	$currencies = Currency::select('id','code')->get();
+
+        return $this->SUCCESS($currencies);
     }
 }
