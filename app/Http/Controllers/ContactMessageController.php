@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\ContactMessage;
 use Auth;
+use Illuminate\Support\Facades\Validator;
 
 class ContactMessageController extends Controller
 {
