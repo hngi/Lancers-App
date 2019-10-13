@@ -12,12 +12,12 @@
               <li class="nav-item ml-3 active">
                 <a class="nav-link " href="#">Project Info <span class="sr-only">(current)</span></a>
               </li>
-              <li class="nav-item">
+             <!-- <li class="nav-item">
                 <a class="nav-link" href="#">Link</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="#">Client Info</a>
-              </li>
+              </li>-->
               <li class="nav-item">
                 <a class="nav-link" href="#">Settings</a>
               </li>
