@@ -26,6 +26,6 @@ class DataController extends Controller
     {
     	$currencies = Currency::select('id','code')->get();
 
-        return $this->SUCCESS($currencies);
+        return $this->SUCCESS("", $currencies);
     }
 }

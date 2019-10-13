@@ -20,11 +20,21 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
 
-        $projects = $user->projects()->select('id','title', 'status', 'created_at')->with(['estimate:project_id,start,end', 'invoice:project_id,amount,amount_paid'])->get();
+        $projects = $user->projects()->select('id','title', 'status', 'created_at')->with(['estimate:project_id,start,end,estimate', 'invoice:project_id,amount,amount_paid'])->get();
 
         // return $projects;
         return response()->json($projects, 200);
         
+    }
+
+    public function userProjects()
+    {
+        $user = Auth::user();
+
+        $projects = $user->projects()->select('id','title')->get()->toArray();
+
+                // return $projects;
+        return response()->json($projects, 200);
     }
 
     /**
@@ -146,13 +156,32 @@ class ProjectController extends Controller
             // add profile profile_picture name to main data
             foreach ($people as $key => $person) {
 
-                $person[$key]["designation"] = $team[$key]["designation"];
+                $people[$key]["designation"] = $team[$key]["designation"];
             }
 
             return $this->success("collaborators retrieved", $people);        
         }else{
             return $this->error("You are not authorized to view this collaborators",[] , 401);
         }
+    }
+
+    public function allCollaborators()
+    {
+        $user = Auth::user();
+
+        $team = $user->projects()->select('title', 'collaborators')->get()->map(function($val){
+            $people = array_column($val->collaborators, "user_id");
+            $people = User::whereIn('id', $people)->select('id', 'name', 'profile_picture')->get()->toArray();
+
+            foreach ($people as $key => $person) {
+                $people[$key]['designation'] = $val->collaborators[$key]['designation'];
+                $people[$key]['project'] = $val->title;
+            }
+
+            return $people;
+        });
+
+        return $this->success("collaborators retrieved", $team);
     }
 
     public function addCollaborator(Request $request, Project $project) {

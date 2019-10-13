@@ -128,17 +128,20 @@ class ProfileController extends Controller
         return Validator::make($data, [
         'first_name' => ['required', 'string', 'max:255'],
         'last_name' => ['required', 'string', 'max:255'],
-        'title' => ['required', 'string', 'max:255'],
-        'company_name' => ['required', 'string', 'max:255'],
-        'company_email' => ['required', 'email', 'max:255'],
-        'company_address' => ['required', 'string', 'max:255'],
-        'phone' => ['required', 'numeric'],
-        'street' => ['required', 'string', 'max:255'],
-        'street' => ['required', 'string', 'max:255'],
-        'street_number' => ['required', 'string', 'max:255'],
-        'city' => ['required', 'string', 'max:255'],
-        'zipcode' => ['required', 'string', 'max:255'],
-        'contacts' => ['required', 'string', 'max:255'],
+        'title' => ['nullable', 'string', 'max:255'],
+        'company_name' => ['nullable', 'string', 'max:255'],
+        'company_email' => ['nullable', 'email', 'max:255'],
+        'company_address' => ['nullable', 'string', 'max:255'],
+        'phone' => ['nullable', 'numeric'],
+        'street' => ['nullable', 'string', 'max:255'],
+        'street' => ['nullable', 'string', 'max:255'],
+        'street_number' => ['nullable', 'string', 'max:255'],
+        'city' => ['nullable', 'string', 'max:255'],
+        'zipcode' => ['nullable', 'string', 'max:255'],
+        'contacts' => ['nullable', 'string', 'max:255'],
+        'country_id' => ['nullable', 'numeric'],
+        'state_id' => ['nullable', 'numeric'],
+        'currency_id' => ['nullable', 'numeric']
         ]);
     }
 
@@ -160,17 +163,15 @@ class ProfileController extends Controller
 
       //check user provided input
       $validateAll = $this->validator($request->all());
-      $countryIdVal = $this->validatorId(['id'=> $request->input('country_id')]);
-      $currencyIdVal = $this->validatorId(['id'=> $request->input('currency_id')]);
-      $stateIdVal = $this->validatorId(['id'=> $request->input('state_id')]);
 
 
 
-        if((!$validateAll->fails()) && (!$countryIdVal->fails()) && (!$currencyIdVal->fails()) && (!$stateIdVal->fails()))
-      {
+        if(!$validateAll->fails()){
             //get user details
 
-            $userDetails = auth()->user();
+            $user = Auth::user();
+
+            $userDetails = $user;
             $userDetails->name = $request->input('first_name').' '.$request->input('last_name');
             $userDetails->save();
 
@@ -179,104 +180,27 @@ class ProfileController extends Controller
             ($userDetails) ? $FullNameSave = true : $FullNameSave = false;
 
             //handle main profile save
-            if($FullNameSave)
-            {
+            if($FullNameSave){
+
                 //check if usr has saved data before
-                $userProfileData = User::where('id',auth()->user()->toArray()['id'])->find(1)->profile()->get();
+                $userProfileData = $user->profile;
 
-                if($userProfileData)
-                {
-                    //cast collection result to array
-                    $collectionResult = $userProfileData->toArray();
+                $needed_data = ['first_name', 'last_name', 'title', 'company_name', 'company_email', 'company_address', 'phone', 'street', 'street_number', 'country_id', 'city', 'state_id', 'zipcode', 'timezone', 'contacts', 'currency_id'];
 
-                    if(sizeof($collectionResult) != 0)
-                    {
-
-                    $userProfile = Profile::where('user_id',auth()->user()->id)->first();
-
-                    $userProfile->first_name = $request->input('first_name');
-                    $userProfile->last_name = $request->input('last_name');
-                    $userProfile->title = $request->input('title');
-                    $userProfile->company_name = $request->input('company_name');
-                    $userProfile->company_email = $request->input('company_email');
-                    $userProfile->company_address = $request->input('company_address');
-                    $userProfile->phone = $request->input('phone');
-                    $userProfile->street = $request->input('street');
-                    $userProfile->street_number = $request->input('street_number');
-                    $userProfile->country_id = $request->input('country_id');
-                    $userProfile->city  = $request->input('city');
-                    $userProfile->zipcode = $request->input('zipcode');
-                    $userProfile->state_id = $request->input('state_id');
-                    $userProfile->timezone = $request->input('timezone');
-                    $userProfile->contacts = $request->input('contacts');
-                    $userProfile->currency_id = $request->input('currency_id');
-                    $userProfile->save();
-
-                    if($userProfile)
-                    {
-                        return redirect('/dashboard/profile')->with('editStatus','Profile details saved succesfully!');
+                $data_to_save = [];
+                foreach ($needed_data as $data) {
+                    if(isset($request->input('data'))){
+                        $data_to_save[$data] = $request->input('data');
                     }
-                    else
-                    {
-                        $errorString = ['Profile details not saved, database error'];
-
-                        return redirect('/dashboard/profile')->with('editErrors',$errorString);
-
-                    }
-
-                    }
-                    else
-                    {
-                        //save new data
-                        $userProfile = Profile::create([
-                            'user_id' => auth()->user()->id,
-                            'first_name' => $request->input('first_name'),
-                            'last_name' => $request->input('first_name'),
-                            'title' => $request->input('first_name'),
-                            'profile_picture' => 'null',
-                            'company_name' => $request->input('company_name'),
-                            'company_email' => $request->input('company_email'),
-                            'company_address' => $request->input('company_address'),
-                            'phone' => $request->input('phone'),
-                            'street' => $request->input('street'),
-                            'street_number' => $request->input('street_number'),
-                            'country_id' => $request->input('country_id'),
-                            'city'  => $request->input('city'),
-                            'zipcode' => $request->input('zipcode'),
-                            'state_id' => $request->input('state_id'),
-                            'timezone' => $request->input('timezone'),
-                            'contacts' => $request->input('contacts'),
-                            'currency_id' => $request->input('currency_id'),
-                                                ]);
-
-                        if($userProfile)
-                        {
-                            return redirect('/dashboard/profile')->with('editStatus','Profile details saved succesfully!');
-
-                        }
-                        else
-                        {
-                            $errorString[] = 'Profile details not saved, database error';
-
-                            return redirect('/dashboard/profile')->with('editErrors',$errorString);
-
-                        }
-
-                    }
-
-                }
-                else{
-
-                    $errorString = ['Profile details not saved, database error'];
-
-                  return redirect('/dashboard/profile')->with('editErrors',$errorString);
                 }
 
+                $saved_profile = $Profile->update($data_to_save);
 
+                if($saved_profile){
+                    return $this->success("Profile saved", $saved_profile);
+                }
 
-
-            }
-            else{
+            }else{
 
                 $errorString = ['Profile details not saved, database error'];
 

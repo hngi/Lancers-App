@@ -13,4 +13,9 @@ class Task extends Model
     protected $casts = [
     	'team' => 'array'
     ];
+
+    public function project()
+    {
+    	return $this->belongsTo('App\Project', 'project_id', 'id');
+    }
 }
