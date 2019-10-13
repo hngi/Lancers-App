@@ -27,6 +27,16 @@ class ProjectController extends Controller
         
     }
 
+    public function userProjects()
+    {
+        $user = Auth::user();
+
+        $projects = $user->projects()->select('id','title')->get()->toArray();
+
+                // return $projects;
+        return response()->json($projects, 200);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
@@ -153,6 +163,25 @@ class ProjectController extends Controller
         }else{
             return $this->error("You are not authorized to view this collaborators",[] , 401);
         }
+    }
+
+    public function allCollaborators()
+    {
+        $user = Auth::user();
+
+        $team = $user->projects()->select('title', 'collaborators')->get()->map(function($val){
+            $people = array_column($val->collaborators, "user_id");
+            $people = User::whereIn('id', $people)->select('id', 'name', 'profile_picture')->get()->toArray();
+
+            foreach ($people as $key => $person) {
+                $people[$key]['designation'] = $val->collaborators[$key]['designation'];
+                $people[$key]['project'] = $val->title;
+            }
+
+            return $people;
+        });
+
+        return $this->success("collaborators retrieved", $team);
     }
 
     public function addCollaborator(Request $request, Project $project) {

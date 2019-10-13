@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Auth;
 use App\Task;
 use App\User;
 use App\Project;
@@ -14,12 +15,28 @@ class TaskController extends Controller
     
     public function index(Project $project)
     {
-        $tasks = Task::where('project_id', $project->id)->get();
+        $user = Auth::user();
+
+        $projects = $user->projects->pluck('id')->toArray();
+
+        $tasks = Task::whereIn('project_id', $projects )->select('name', 'project_id', 'status', 'progress', 'team')->with('project:id,title')->get();
+
         if($tasks){
             return $this->SUCCESS("tasks retrieved", $tasks);
         }
         return $this->ERROR('no Task Found');
     }
+
+
+        public function projectTasks(Project $project)
+        {
+            $tasks = Task::where('project_id', $project->id)->get();
+            if($tasks){
+                return $this->SUCCESS("tasks retrieved", $tasks);
+            }
+            return $this->ERROR('no Task Found');
+        }
+
 
     
     public function show(Task $task)

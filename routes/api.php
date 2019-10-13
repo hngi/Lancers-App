@@ -64,6 +64,8 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::get('client/{id}', 'ClientController@view');
 
     // Project API Routes
+    Route::get('/projects/collaborators', 'ProjectController@allCollaborators');
+    Route::get('/projects/names', 'ProjectController@userProjects');
     Route::resource('projects', 'ProjectController');
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
     Route::get('projects/{project}/collaborators', 'ProjectController@collaborators');
@@ -76,7 +78,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::delete('estimates/{estimate}','EstimateController@destroy');
 
     // Task API routes
-    Route::get('tasks/{project}','TaskController@index');
+    Route::get('tasks','TaskController@index');
     Route::get('tasks/{task}/team', 'TaskController@team');
     
 });

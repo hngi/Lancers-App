@@ -32,6 +32,7 @@ class EstimateController extends Controller
      */
     public function store(Request $request)
     {
+                return $request->input();
         $request->validate([
             'project_id' => 'required|numeric',
             'time' => 'required|numeric',
@@ -51,7 +52,7 @@ class EstimateController extends Controller
         $estimate = Estimate::create($request->all() + ['estimate' => $estimateCost]);
 
         if ($estimate) {
-            return $this->SUCCESS($estimate);
+            return $this->SUCCESS("estimate created", $estimate);
         }
 
         return $this->ERROR('Estimate creation failed');
@@ -66,6 +67,7 @@ class EstimateController extends Controller
      */
     public function update(Request $request, Estimate $estimate)
     {
+
         $request->validate([
             'project_id' => 'required|numeric',
             'time' => 'required|numeric',
