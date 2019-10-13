@@ -11,6 +11,13 @@ use Illuminate\Http\Request;
 
 class ClientController extends Controller
 {
+
+     public function addClient(){
+        
+
+        return view("add_client");
+    }
+
     public function store(Request $request){
         $data = $request->all();
         // $validation = Validation::clients($data);
