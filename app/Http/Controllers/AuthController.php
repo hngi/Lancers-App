@@ -45,13 +45,18 @@ class AuthController extends Controller
 
         try{
 
-            $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
-            $user->name = $request->name;
-            $user->password = bcrypt($request->password);
-            $user->save();
-            
+            // $user = new User();
+            // $user->name = $request->name;
+            // $user->email = $request->email;
+            // $user->name = $request->name;
+            // $user->password = bcrypt($request->password);
+            // $user->save();
+
+            $user = User::create(['name' => $request->name, 'email' => $request->email, 'password' => bcrypt($request->password)]);
+
+            $name = explode(" ",$request->name);
+            $user->profile()->create(['first_name' => $name[0], 'last_name' => $name[1]]);
+
             $subscriber = new Subscription;
             $subscriber->subscribeToPlan(1 , $user->id, 12);
 

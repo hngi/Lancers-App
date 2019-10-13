@@ -43,6 +43,6 @@ class MigrationsCommand extends Command
         Artisan::call('subscriptions:table');
         Artisan::call('countriesandstates:table');
         Artisan::call('currencies:table');
-        Artisan::call('passport:install');
+        // Artisan::call('passport:install');
     }
 }

@@ -86,15 +86,13 @@ Route::get('documents/{id}','DocumentsController@show');
 Route::post('documents','DocumentsController@store');
 Route::put('documents/{document}','DocumentsController@update');
 Route::delete('documents/{document}','DocumentsController@destroy');
-<<<<<<< HEAD
+
 Route::resource('projects', 'ProjectController');
 
 Route::get('subscription/plans', 'SubscriptionController@getPlans');
-=======
 
 Route::resource('projects', 'ProjectController');
 
 Route::get('contact-messages','ContactMessageController@index');
 Route::get('contact-messages/{id}','ContactMessageController@show');
 Route::post('contact-messaget/create', 'ContactMessageController@store');
->>>>>>> 8455d89cc34c5c7aaad76eaa3998bc61e2ab1651

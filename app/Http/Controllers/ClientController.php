@@ -15,7 +15,7 @@ class ClientController extends Controller
         $data = $request->all();
         // $validation = Validation::clients($data);
         // if(!$validation) return $this->ERROR('Form validation failed', $validation);
-        
+        dd($data);
         try{
             if(Client::create($data)){
                 logger('New client created - ' . $data['name']);
@@ -53,13 +53,13 @@ class ClientController extends Controller
 
     public function list(){
         $user = Auth::user();
-        $clients = $user->clients()->select('id,name,profile_picture')->with('project:name,status')->get()->paginate(10);
+        $clients = $user->clients()->select('id','name','contacts','profile_picture')->with('project:title,status')->paginate(10);
 
         // $user = User::find(1);
         // return $users->projects()->clients()->;
         
         // $client = Client::where('user_id', Auth::user()->id)->paginate(10);
-        return $client !== null ? $this->SUCCESS('Client retrieved', $client) : $this->SUCCESS('No client found');
+        return $clients !== null ? $this->SUCCESS('Client retrieved', $clients) : $this->SUCCESS('No client found');
     }
 
     public function view($client_id){
