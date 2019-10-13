@@ -1,6 +1,8 @@
 @extends('layouts.master')
 
-
+@section('styles')
+    @include('layouts.style')
+@endsection
 @section('sidebar')
 @section('nav')
     @include('layouts.nav')

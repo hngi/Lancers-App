@@ -1,5 +1,200 @@
 
 @extends('layouts.master')  
+@section('styles')
+    <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
+      <style>
+          * {
+              padding: 0;
+              margin: 0;
+              box-sizing: border-box;
+          }
+          body{
+              font-family: Ubuntu;
+          }
+          .container {
+              width: 96%;
+              margin: 0 auto;
+          }
+
+          .error{
+              color: red;
+          }
+
+          .header-container {
+              width: 100%;
+              display: flex;
+              flex-direction: row;
+              margin: 0 auto;
+              height: 8vh;
+          }
+
+          .header-container * {
+              border: 1px solid #C4C4C4;
+
+          }
+          .header-container h4 {
+              flex: 2;
+              text-align: center;
+              padding-top: 2.4vh;
+          }
+          .back-close {
+              display: flex;
+              margin: 0;
+              padding: 0;
+          }
+          .back-close button {
+              width: 3em;
+          }
+          .header-container img {
+              border: 0;
+          }
+          .header-container button:hover {
+              transition: border 1s;
+              border: none;
+          }
+          #create, #bottom-create {
+              width: 8rem;
+              background-color: #0ABAB5;
+              color: #fff;
+          }
+          .form {
+              position: relative;
+              top: 6vh;
+              width: 90%;
+              margin: 0 auto;
+              left: 1.2em;
+          }
+          h1, h3, h4 {
+              font-family: "Ubuntu";
+              padding-bottom: 0.3em;
+          }
+          h3, h4 {
+              text-align: center;
+          }
+          h4 {
+              position: relative;
+          }
+          form {
+              border: 1px solid #C4C4C4;
+              width: 90%;
+              padding: 1em;
+          }
+          #bottom-create {
+              position: relative;
+              top: 4em;
+              height: 6vh;
+              border: none;
+              width: 70%;
+              margin-bottom: 2em;
+          }
+          #bottom-create:hover {
+              font-weight: bolder;
+              transition: font-weight 1s, background-color 1s;
+          }
+          footer {
+              width: 30%;
+              margin-top: 2em;
+              margin-bottom: 2em;
+              padding-bottom: 2em;
+              margin-left: calc(50%);
+              transform: translateX(-50%);
+          }
+          label, input, select {
+              display: block;
+              width: 70%;
+              margin: 0 auto 0.2em auto;
+          }
+          label{
+              font-size: 16px;
+              color: #262626;
+          }
+          input {
+              padding: 0.2em;
+              margin-bottom: 0.5em;
+          }
+          input{
+              border: 1px solid #919191;
+          }
+          input::placeholder{
+              color: #B1B1B1;
+          }
+          select{
+              padding: 0.2em;
+              margin-bottom: 0.5em;
+              background-color: #ffffff;
+          }
+          #close{
+              background-color: #ffffff;
+              border:1px solid #C4C4C4 ;
+          }
+          #back{
+              background-color: #ffffff;
+              border:1px solid #C4C4C4 ;
+          }
+          #addcontact {
+              width: 40%;
+              background-color: #fff;
+              border: 0;
+              font-weight: bolder;
+              margin-top: 1em;
+              margin-bottom: 1em;
+              margin-left: calc(25%);
+
+          }
+          h3:last-of-type {
+              padding-top: 2em;
+          }
+          @media screen and (min-width: 700px) {
+
+              input, select {
+                  display: inline-block;
+                  width: 40%;
+                  padding: 0.5em;
+              }
+              label {
+                  margin-left: 0.2em;
+              }
+              #addcontact {
+
+                  margin-left: 0;
+                  text-align: left;
+              }
+              footer {
+
+                  margin-left: calc(50% + 4rem);
+                  transform: translateX(-50%);
+              }
+          }
+          @media screen and (min-width: 900px) {
+              body {
+                  max-width: 1020px;
+                  margin: 0 auto;
+              }
+              label {
+                  display: inline-block;
+                  margin-right: 10px;
+                  width: 20%;
+              }
+
+              form h3, form h4 {
+                  text-align: left;
+                  margin-bottom: 1em;
+              }
+              input, select {
+                  margin-left: 1.5em;
+                  width: 30%;
+              }
+          }
+      </style>
+    @include('layouts.style')
+
+@endsection
+@section('nav')
+    @include('layouts.nav')
+
+@endsection
+
+
 @section('sidebar')
 
 
@@ -10,7 +205,7 @@
       <div class="sidebar-heading">Lan<span class="colorC">c</span>ers </div>
       <div class="list-group list-group-flush">
         <a href="/dashboard" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727367/home.svg" alt=""> Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
+        <a href="/dashboard/client" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
           <!-- dropDown Menu -->
       <div class="nav-item dropdown">
         <a href="#" class="nav-link list-group-item list-group-item-action bg-dark" data-toggle="dropdown">
@@ -50,30 +245,29 @@
     <!-- /#sidebar-wrapper -->
 </div>
 @endsection
-@section('nav')
-    <nav>
-        <div class="header-container">
-            <div class="back-close">
-                <button id="close"><img src="https://res.cloudinary.com/mide358/image/upload/v1570621469/clear_24px_rasbwc.png" alt="back"></button>
-                <button id="back"><img src="https://res.cloudinary.com/mide358/image/upload/c_scale,h_27,w_13/v1570621434/Vector_ag4hnv.png" alt="back"></button>
-            </div>
-
-            <h4>Client</h4>
-            <button id="create">Create Invoice</button>
-        </div>
-    </nav>
-@endsection
 
 @section('content')
-
-
-        <div class="container">
+ <div class="container">
 
        <div class="form">
-           <h1>Client Information</h1>
-           <form autocomplete="on" action="" method="post" onsubmit="return checkForm()">
+           <h4>Client Information</h4>
+           <form autocomplete="on" action="/dashboard/add_client" method="post" onsubmit="return checkForm()">
+            @csrf <!-- {{ csrf_field() }} -->
+
             <div>
                     <p class="error" id="errorMsg">All Fields Required</p>
+
+         @if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+                     {{isset($success)?'<p class="success">'.$success.'</p>':
+                    ''}}
             <h3> Business Information</h3>
 
                <label for="company-name">Company name</label>
@@ -355,18 +549,14 @@
               </div>
 
 
-           </form>
+           
 
        </div>
         </div>
-@endsection
-
-@section("footer")
         <footer> <button id="bottom-create" type="submit">Create Invoice</button></footer>
-       
+</form>
 @endsection
-@section("script")
-
+@section('script')
   <script>
 
       var companyname = document.getElementById("companyname");

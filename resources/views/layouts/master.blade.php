@@ -17,8 +17,10 @@
 
     <!-- Styles -->
     {{--  <link href="{{ asset('css/app.css') }}" rel="stylesheet">  --}}
+      
    {{-- //inline styles --}}
-    @include('layouts.style')
+       @yield('styles')
+
     
 </head>
 <body>

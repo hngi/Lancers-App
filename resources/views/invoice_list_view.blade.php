@@ -1,8 +1,13 @@
 
 @extends('layouts.master')  
+@section('styles')
+    @include('layouts.style')
+@endsection
 @section('nav')
     @include('layouts.nav')
 @endsection
+
+
 @section('sidebar')
 
 
@@ -139,6 +144,7 @@
 </section>
 @endsection
 
+@section('script')
 <script type="text/javascript">
     $(document).ready(function () {
         $('#sidebarCollapse').on('click', function () {
@@ -183,3 +189,4 @@
            
     });
 </script>
+@endsection
