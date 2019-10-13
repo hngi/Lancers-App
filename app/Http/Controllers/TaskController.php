@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use App\Task;
 use App\User;
 use App\Project;
-use Illuminate\Http\Request;
 use App\Rules\IsUser;
+use Illuminate\Http\Request;
 
 class TaskController extends Controller
 {
@@ -21,7 +21,7 @@ class TaskController extends Controller
     {
         $tasks = Task::where('project_id', $project->id)->get();
         if($tasks){
-            return $this->SUCCESS($tasks);
+            return $this->SUCCESS("tasks retrieved", $tasks);
         }
         return $this->ERROR('no Task Found');
     }
@@ -56,7 +56,7 @@ class TaskController extends Controller
         $task = Task::create($request->all());
 
         if ($task) {
-            return $this->SUCCESS($task);
+            return $this->SUCCESS("task created", $task);
         }
 
         return $this->ERROR('Task creation failed');
@@ -85,7 +85,7 @@ class TaskController extends Controller
 
         if ($task) {
             $task->update($request->all());
-            return $this->SUCCESS($task);
+            return $this->SUCCESS("task updated",$task);
         }
 
         return $this->ERROR('Task not found');
@@ -121,7 +121,7 @@ class TaskController extends Controller
 
         $task = $task->update(['team' => $team]);
 
-        return $this->SUCCESS($task);
+        return $this->SUCCESS("team added", $task);
     }
 
     public function team(Task $task)
@@ -137,6 +137,6 @@ class TaskController extends Controller
             $members[$key]["designation"] = $team[$key]["designation"];
         }
 
-        return $this->SUCCESS($members);
+        return $this->SUCCESS("members retrieved", $members);
     }
 }

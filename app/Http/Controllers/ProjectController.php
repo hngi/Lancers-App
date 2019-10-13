@@ -53,7 +53,7 @@ class ProjectController extends Controller
 
         $project = $user->projects()->create($data);
 
-        return $this->success($project, $code = 201);
+        return $this->success("project created", $project, $code = 201);
     }
 
     /**
@@ -64,7 +64,13 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return $this->success("Projects retrieved", $project, 201);
+        $user_id = Auth::id();
+
+        if($project->user_id == $user_id){      
+            return $this->success("Projects retrieved", $project, 201);
+        }else{
+            return $this->error("Project not found", [], 404);
+        }
     }
 
 
@@ -102,7 +108,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return $this->SUCCESS($project);
+        return $this->success("project updated", $project);
     }
 
     /**
@@ -111,58 +117,78 @@ class ProjectController extends Controller
      * @param  \App\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Project $project)
+    public function destroy($project)
     {
-        $user = Auth::user();
+        if($project = Project::find($project)){
+            $user = Auth::user();
 
-        if($project->user_id == $user->id){
-            $project->delete();
+            if($project->user_id == $user->id){
+                $project->delete();
+            }
+
+            return $this->SUCCESS("project deleted", null, $code = 204);
+        }else{
+            return $this->error("project not found");
         }
-
-        return $this->SUCCESS(null, $code = 204);
     }
 
     public function collaborators(Project $project)
     {
-        $team = $project->collaborators ?? [];
-        
-        // fetch all the team mates as users with profile_picture, name
-        $people = array_column($team, "user_id");
-        $people = User::whereIn('id', $people)->select('id', 'name', 'profile_picture')->get();
+        $user_id = Auth::id();
 
-        // add profile profile_picture name to main data
-        foreach ($people as $key => $person) {
-            $person[$key]["designation"] = $team[$key]["designation"];
+        if ($user_id == $project->user_id) {
+            $team = $project->collaborators ?? [];
+            
+            // fetch all the team mates as users with profile_picture, name
+            $people = array_column($team, "user_id");
+            $people = User::whereIn('id', $people)->select('id', 'name', 'profile_picture')->get()->toArray();
+
+            // add profile profile_picture name to main data
+            foreach ($people as $key => $person) {
+
+                $person[$key]["designation"] = $team[$key]["designation"];
+            }
+
+            return $this->success("collaborators retrieved", $people);        
+        }else{
+            return $this->error("You are not authorized to view this collaborators",[] , 401);
         }
-
-        return $this->SUCCESS($people);
     }
 
-    public function addCollaborator(Project $project, Request $request) {
-        $team = $project->collaborators ?? [];
-        $request->validate([
-            'user_id' => ['required', 'integer', new IsUser],
-            'designation' => 'required|string',
-        ]);
+    public function addCollaborator(Request $request, Project $project) {
+        $user_id = Auth::id();
 
-        $user = Auth::user();
-        $max_collaborators = $user->subscription->features['collaborators'];
+        if ($user_id == $project->user_id) {
+            $team = $project->collaborators ?? [];
+            $request->validate([
+                'user_id' => ['required', 'integer', new IsUser],
+                'designation' => 'required|string',
+            ]);
 
-        if(count($team) == $max_collaborators){
-            return $this->ERROR("You can only add $max_collaborators collaborators", $code = 412);
+            $user = Auth::user();
+            dd($user->subscription);
+            $max_collaborators = $user->subscription->features['collaborators'];
+
+            if(count($team) == $max_collaborators){
+                return $this->ERROR("You can only add $max_collaborators collaborators", $code = 412);
+            }
+
+            array_push($team, [
+                'user_id' => $request->input('user_id'),
+                'designation' => $request->input('designation')
+            ]);
+
+
+            $project = $project->update(['collaborators' => $team]);
+            // this wont work due to json to array cast
+            // $project->collaborators = $team;
+            // $project->save();
+
+            return $this->SUCCESS($project);
+        }else{
+            return $this->error("Not authorized",[] , 401);
         }
-
-        array_push($team, [
-            'user_id' => $request->input('user_id'),
-            'designation' => $request->input('designation')
-        ]);
-
-
-        $project = $project->update(['collaborators' => $team]);
-        // this wont work due to json to array cast
-        // $project->collaborators = $team;
-        // $project->save();
-
-        return $this->SUCCESS($project);
     }
+
+
 }

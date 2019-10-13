@@ -62,6 +62,7 @@ Route::group(['middleware' => 'auth:api'], function(){
     // Project API Routes
     Route::resource('projects', 'ProjectController');
     Route::post('projects/{project}/collaborators', 'ProjectController@addCollaborator');
+    Route::get('projects/{project}/collaborators', 'ProjectController@collaborators');
 
     // Estimate API routes
     Route::get('estimates/{project}','EstimateController@show');
