@@ -1,3 +1,226 @@
+
+    <!-- Bootstrap CSS CDN -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <!-- Our Custom CSS -->
+    <!-- <link rel="stylesheet" href="style/project.css"> -->
+    <style type="text/css">
+        /*Main page style by message*/
+
+        @import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
+        :root{
+            --primary-color: #091429;
+            --secondary-color: #0ABAB5;
+            --dark-color: #262626;
+            --light-color: #B1B1B1;
+        }
+
+
+           /****************************/
+          /*------- main styles ------*/
+         /****************************/
+
+
+        .text-primary{
+            color: var(--primary-color) !important;
+        }
+        .text-secondary{
+            color: var(--secondary-color) !important;
+        }
+        .text-dark{
+            color: var(--dark-color) !important;
+        }
+        .text-light{
+            color: var(--light-color) !important;
+        }
+        .bg-primary{
+            background-color: var(--primary-color) !important;
+        }
+        .bg-secondary{
+            background-color: var(--secondary-color) !important;
+        }
+        .bg-light{
+            background-color: var(--light-color) !important;
+        }
+        .bg-dark{
+            background-color: var(--dark-color) !important;
+        }
+        .btn{
+            border: none !important;
+            display: inline-block;
+            position: relative;
+            overflow: hidden;
+            transition: all ease-in-out .5s;
+        }
+        .btn::after {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 25%;
+            height: 100%;
+            width: 40%;
+            background-color: #000;
+            border-radius: 50%;
+            opacity: 0;
+            pointer-events: none;
+            transition: all ease-in-out 1s;
+            transform: scale(5, 5);
+        }
+        .btn:active::after {
+            padding: 0;
+            margin: 0;
+            opacity: .2;
+            transition: 0s;
+            transform: scale(0, 0);
+        }
+        .btn-primary{
+            background-color: var(--primary-color) !important;
+        }
+        .btn-secondary{
+            background-color: var(--secondary-color) !important;
+        }
+        .btn-primary-outline{
+            background-color: transparent !important;
+            color: var(--primary-color)  !important;
+            border: 1px solid var(--primary-color)  !important;
+        }
+        .btn-secondary-outline{
+            background-color: transparent !important;
+            color: var(--secondary-color)  !important;
+            border: 2px solid var(--secondary-color)  !important;
+        }
+        .btn-primary:hover, .btn-secondary:hover, .btn-primary-outline:hover, .btn-secondary-secondary:hover{
+            border-color: inherit !important;
+            opacity: 0.8 !important;
+        }
+
+        /*------Nav bar---------*/
+        a,
+        a:hover,
+        a:focus {
+          color: inherit;
+          text-decoration: none;
+          transition: all 0.3s;
+        }
+        .navbar {
+          padding-top: 0px;
+          padding-bottom: 0px;
+          background-color: #fff;
+          border: none;
+          border-radius: 0;
+          margin-bottom: 10px;
+          box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .navbar-btn {
+          box-shadow: none;
+          outline: none !important;
+          border: none;
+        }
+        .navbar-nav .nav-item .nav-link:hover{
+          transition: 0.25s;
+          background-color: #ecf3ff;
+        }
+        .line {
+          width: 100%;
+          height: 1px;
+          border-bottom: 1px dashed #ddd;
+          margin: 40px 0;
+        }
+
+        .wrapper #content{
+
+        }
+        /* ---------------------------------
+        /* ---------------------------------------------------
+            CONTENT STYLE
+        ----------------------------------------------------- */
+        #content {
+          width: 100%;
+          min-height: 100vh;
+          transition: all 0.3s;
+        }
+        #sidebarCollapse {
+          width: 40px;
+          height: 40px;
+          background: #f5f5f5;
+          cursor: pointer;
+        }
+        #sidebarCollapse span {
+          width: 80%;
+          height: 2px;
+          margin: 0 auto;
+          display: block;
+          background: #555;
+          transition: all 0.8s cubic-bezier(0.810, -0.330, 0.345, 1.375);
+          transition-delay: 0.2s;
+        }
+        #sidebarCollapse span:first-of-type {
+          transform: rotate(45deg) translate(2px, 2px);
+        }
+        #sidebarCollapse span:nth-of-type(2) {
+          opacity: 0;
+        }
+        #sidebarCollapse span:last-of-type {
+          transform: rotate(-45deg) translate(1px, -1px);
+        }
+        #sidebarCollapse.active span {
+          transform: none;
+          opacity: 1;
+          margin: 5px auto;
+        }
+
+        .alert.alert-primary.py-0.px-2.small.m-0.pending{
+            color: #F67A06;
+            font-weight: bold;
+            background-color: rgba(201, 133, 70,0.3);
+            border-color: rgba(201, 133, 70,0.3);
+        }
+
+        .alert.alert-primary.py-0.px-2.small.m-0.active{
+            color: #179615;
+            font-weight: bold;
+            background-color: #76D874;
+            border-color:  #76D874;
+        }
+        /* ---------------------------------------------------
+            MEDIAQUERIES
+        ----------------------------------------------------- */
+        @media (max-width: 768px) {
+          #sidebar {
+            margin-left: -250px;
+            transform: rotateY(90deg);
+          }
+          #sidebar.active {
+            margin-left: 0;
+            transform: none;
+          }
+          #sidebarCollapse span:first-of-type,
+          #sidebarCollapse span:nth-of-type(2),
+          #sidebarCollapse span:last-of-type {
+            transform: none;
+            opacity: 1;
+            margin: 5px auto;
+          }
+          #sidebarCollapse.active span {
+            margin: 0 auto;
+          }
+          #sidebarCollapse.active span:first-of-type {
+            transform: rotate(45deg) translate(2px, 2px);
+          }
+          #sidebarCollapse.active span:nth-of-type(2) {
+            opacity: 0;
+          }
+          #sidebarCollapse.active span:last-of-type {
+            transform: rotate(-45deg) translate(1px, -1px);
+          }
+        }
+
+      
+    </style>
+    <!-- Font Awesome JS -->
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/solid.js" integrity="sha384-tzzSw1/Vo+0N5UhStP3bvwWPq+uvzCMfrN1fEFe+xBmv1C/AtVX5K0uZtmcHitFZ" crossorigin="anonymous"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.0.13/js/fontawesome.js" integrity="sha384-6OIrr52G08NpOFSZdxxz1xdNSndlD4vdcf/q2myIUVO0VsqaGHJsB0RaBE01VTOY" crossorigin="anonymous"></script>
 <style>
 
     *{
@@ -15,10 +238,10 @@
         text-align: left;
     }
 
-  /*  
+  
     td:first-child,
     th:first-child {
-        //padding-left: 10px;
+        padding-left: 10px;
     }
     td:last-child,
     th:last-child {
@@ -31,7 +254,7 @@ thead, .table-date {
         font-weight: bold;
         font-size: 14px;
         line-height: 28px;
-        color: #A6A6A6;
+        color: black;
 }
 tbody, .bold {
 
@@ -47,7 +270,7 @@ tbody, .bold {
     overflow-x: unset;
     padding-right: .5rem;
     -webkit-overflow-scrolling: touch;
-}*/
+}
 .note h5 {
     font-family: Ubuntu;
     font-weight: bold;
@@ -413,22 +636,7 @@ h1 {
       .logo-img {
     width: 4rem;
 }
-/*thead, .table-date {
-        font-size: 8px;
-        line-height: 12px;
-}
-tbody, .bold {
-        font-size: .62rem;
-        line-height: 1;
-     }
-      td,
-    th {
-        width: 28vw;
-    }
-     .tableAmount {
-        font-weight: 600;
-        font-size: .75rem;
-     }*/
+
      .navbar-light .navbar-nav .nav-link {
         font-size: .55rem;
 }
@@ -450,4 +658,6 @@ tbody, .bold {
     margin-bottom: 2rem;
 }
 }
+ 
+
 </style>
