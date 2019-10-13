@@ -9,6 +9,17 @@ use App\Client;
 
 class InvoiceController extends Controller
 {
+
+     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Creates new record in the invoice table
      */
