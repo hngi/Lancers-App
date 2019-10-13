@@ -30,7 +30,8 @@
     {{-- @endauth --}}
 
 {{-- //top navigation bar --}}
-    @include('layouts.nav')
+    @yield('nav')
+
 
     @yield('content')
 

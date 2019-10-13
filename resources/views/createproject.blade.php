@@ -2,7 +2,9 @@
 
 
 @section('sidebar')
-
+@section('nav')
+    @include('layouts.nav')
+@endsection
 <div class="d-flex" id="wrapper">
 
     <!-- Sidebar -->
@@ -10,7 +12,7 @@
       <div class="sidebar-heading">Lan<span class="colorC">c</span>ers </div>
       <div class="list-group list-group-flush">
         <a href="#" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727367/home.svg" alt=""> Dashboard</a>
-        <a href="#" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
+        <a href="/dashboard/client" class="list-group-item list-group-item-action bg-dark"><img src="https://res.cloudinary.com/samtech/image/upload/v1570727365/client.svg" alt=""> Client</a>
         <!-- dropDown Menu -->
       <div class="nav-item dropdown">
         <a href="#" class="nav-link list-group-item list-group-item-action bg-dark" data-toggle="dropdown">
