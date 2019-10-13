@@ -27,7 +27,7 @@ $val=[];
 $me =[];
 foreach ($request->input() as $key => $value) {
     $val[$key]= 'required';
-    $me["$key.required"]="$key is required"; 
+    $me["$key.required"]=ucfirst($key) ." is required"; 
 
 }
   $request->validate($val,$me);
