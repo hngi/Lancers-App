@@ -105,5 +105,14 @@ class SubscriptionController extends Controller
 
         return $this->success("plans retrieved", $plans);
     }
+
+    public function userSubscription()
+    {
+        $user = Auth::user();
+        $subscription = $user->subscription()->select('id', 'plan_id', 'startdate', 'enddate')->with('subscriptionPlan:id,name,price')->get();
+
+        return $this->success("successful", $subscription);
+
+    }
     
 }

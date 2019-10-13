@@ -33,3 +33,19 @@ $factory->define(App\Document::class, function (Faker $faker) {
         'body' => $faker->sentence,
     ];
 });
+
+$factory->define(Project::class, function (Faker $faker) {
+    return [
+        'user_id' => $faker->numberBetween(1, 50),
+        'name' => $faker->words(2),
+        'description' => $faker->sentence
+    ];
+});
+
+$factory->define(Project::class, function (Faker $faker) {
+    return [
+        'user_id' => $faker->numberBetween(1, 50),
+        'name' => $faker->words(2),
+        'description' => $faker->sentence
+    ];
+});

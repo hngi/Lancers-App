@@ -40,7 +40,9 @@ Route::delete('tasks/{id}','TaskController@deleteTask');
 
 Route::group(['middleware' => 'auth:api'], function(){  
 
-        // Transaction controller
+    // Subscription Apis
+    Route::get('user/subscription', 'SubscriptionController@userSubscription');
+    // Transaction controller
     Route::get('/transactions', 'TransactionsController@index');
     
 	// Auth Routes
