@@ -20,7 +20,7 @@ class ProjectController extends Controller
     {
         $user = Auth::user();
 
-        $projects = $user->projects()->select('id','title', 'status', 'created_at')->with(['estimate:project_id,start,end', 'invoice:project_id,amount,amount_paid'])->get();
+        $projects = $user->projects()->select('id','title', 'status', 'created_at')->with(['estimate:project_id,start,end,estimate', 'invoice:project_id,amount,amount_paid'])->get();
 
         // return $projects;
         return response()->json($projects, 200);
@@ -146,7 +146,7 @@ class ProjectController extends Controller
             // add profile profile_picture name to main data
             foreach ($people as $key => $person) {
 
-                $person[$key]["designation"] = $team[$key]["designation"];
+                $people[$key]["designation"] = $team[$key]["designation"];
             }
 
             return $this->success("collaborators retrieved", $people);        

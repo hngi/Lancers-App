@@ -109,3 +109,8 @@ Route::get('/invoice/pdf', function() {
     $pdf = PDF::loadView('invoice_view_pdf');  
     return $pdf->download('lancers_invoice.pdf');
 });
+
+
+Route::get('test/pdf', function(){
+    return view('invoice_view_pdf');
+});

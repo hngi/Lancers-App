@@ -75,17 +75,17 @@ Route::group(['middleware' => 'auth:api'], function(){
     Route::put('estimates/{estimate}','EstimateController@update');
     Route::delete('estimates/{estimate}','EstimateController@destroy');
 
+    // Task API routes
+    Route::get('tasks/{project}','TaskController@index');
+    Route::get('tasks/{task}/team', 'TaskController@team');
     
 });
 
-// Task API routes
-Route::get('tasks/{project}','TaskController@index');
 Route::get('tasks/detail/{task}','TaskController@show');
 Route::post('tasks','TaskController@store');
 Route::put('tasks/{task}','TaskController@update');
 Route::delete('tasks/{task}','TaskController@destroy');
 Route::post('tasks/{task}/team', 'TaskController@addTeam');
-Route::get('tasks/{task}/team', 'TaskController@team');
 
 Route::get('documents','DocumentsController@index');
 Route::get('documents/{id}','DocumentsController@show');
